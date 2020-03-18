@@ -1,0 +1,27 @@
+{
+    "name": "whmcs/digiwallet",
+    "description": "DIgiwallet Payment Gateway Module for the WHMCS Billing Automation Platform",
+    "keywords": [
+        "whmcs",
+	"digiwallet",
+        "web host automation platform",
+        "third party gateway module",
+        "gateway module",
+        "third party gateway"
+    ],
+    "homepage": "https://www.digiwallet.nl/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "DigiWallet.nl",
+            "email": "techsupport@targetmedia.nl",
+            "homepage": "https://www.digiwallet.nl/",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "techsupport@targetmedia.nl",
+        "forum": "https://www.digiwallet.nl/",
+        "wiki": "https://www.digiwallet.nl/en/documentation"
+    }
+}
