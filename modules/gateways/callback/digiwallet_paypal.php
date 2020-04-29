@@ -69,7 +69,7 @@ if (empty($cbTrans)) {
 }
 if ($redirect) {
     if ($result['error']) {
-        $redirect .= '&dwError=true';
+        $redirect .= '&paymentfailed=true';
     }
     header("Location: {$redirect}");exit();
 }

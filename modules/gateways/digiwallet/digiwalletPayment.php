@@ -106,9 +106,6 @@ class digiwalletPayment
         $postfields['clientdetails[postcode]'] = $this->params['clientdetails']['postcode'];
         $postfields['clientdetails[country]'] = $this->params['clientdetails']['country'];
         $postfields['clientdetails[phonenumber]'] = $this->params['clientdetails']['phonenumber'];
-        if (isset($_GET['dwError']) && $_GET['dwError'] == 'true') {
-            $htmlOutput = '<p class="alert-danger"> '. $dwLang['digiwallet']['view_invoice_error'] .'</p>';
-        }
         $htmlOutput .= '<form method="post" action="' . $systemUrl . '/modules/gateways/digiwallet/process_payment.php?invoice_id=' . $invoiceId . '">';
         foreach ($postfields as $k => $v) {
             $htmlOutput .= '<input type="hidden" name="' . $k . '" value="' . urlencode($v) . '" />';
