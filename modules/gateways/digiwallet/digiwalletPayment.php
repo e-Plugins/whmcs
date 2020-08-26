@@ -1,13 +1,19 @@
 <?php
 use WHMCS\Database\Capsule;
+use Digiwallet\Packages\Transaction\Client\Client;
+use Digiwallet\Packages\Transaction\Client\Request\CreateTransaction;
+use Digiwallet\Packages\Transaction\Client\Request\CheckTransaction;
 
 require_once __DIR__ . '/../../../init.php';
 require_once __DIR__ . '/../../../includes/gatewayfunctions.php';
 require_once __DIR__ . '/../../../includes/invoicefunctions.php';
 require_once __DIR__ . '/../digiwallet/digiwallet.class.php';
+require_once 'vendor/autoload.php';
 
 class digiwalletPayment
 {
+    const DIGIWALLET_API = "https://api.digiwallet.nl/";
+    const DIGIWALLET_CURRENCY = 'EUR';
     public $params;
     public $paymentMethod;
     private $salt = 'e381277';
@@ -42,6 +48,12 @@ class digiwalletPayment
             case "digiwallet_sofort":
                 return 'DEB';
                 break;
+            case "digiwallet_eps":
+                return 'EPS';
+                break;
+            case "digiwallet_giropay":
+                return 'GIP';
+                break;
             case "digiwallet_ideal":
             default:
                 return 'IDE';
@@ -57,10 +69,6 @@ class digiwalletPayment
         $dwLang = self::dwLoadLanguage();
         //check table if not exits 
         $this->createDigiwalletTable();
-        
-        // Gateway Configuration Parameters
-        $rtlo = $this->params['rtlo'];
-        
         // Invoice Parameters
         $invoiceId = $this->params['invoiceid'];
         $amount = $this->params['amount'];
@@ -125,16 +133,31 @@ class digiwalletPayment
     {
         $response = array();
         $parametersReport = array();
-        $digiwallet = new DigiwalletCore($this->paymentMethod, $this->params['rtlo']);
-        if ($this->paymentMethod == 'BW') {
-            $checksum = md5($trxid . $this->params['rtlo'] . $this->salt);
-            $parametersReport['checksum'] = $checksum;
+        
+        if (in_array($this->paymentMethod, ['EPS', 'GIP'])) {
+            $digiwalletApi = new Client(self::DIGIWALLET_API);
+            $request = new CheckTransaction($digiwalletApi);
+            $request->withBearer($this->params['token']);
+            $request->withOutlet($this->params['rtlo']);
+            $request->withTransactionId($trxid);
+            /** @var \Digiwallet\Packages\Transaction\Client\Response\CheckTransaction $apiResult */
+            $apiResult = $request->send();
+            $apiStatus = $apiResult->getStatus();
+            $isSuccess = (0 == $apiStatus && 'Completed' == $apiResult->getTransactionStatus()) ? true : false;
+            $errorMessage = $apiResult->getMessage();
+        } else {
+            $digiwallet = new DigiwalletCore($this->paymentMethod, $this->params['rtlo']);
+            if ($this->paymentMethod == 'BW') {
+                $checksum = md5($trxid . $this->params['rtlo'] . $this->salt);
+                $parametersReport['checksum'] = $checksum;
+            }
+            $digiwallet->checkPayment($trxid, $parametersReport);
+            $isSuccess = $digiwallet->getPaidStatus();
+            $errorMessage = $digiwallet->getErrorMessage();
         }
-        $digiwallet->checkPayment($trxid, $parametersReport);
-        $updateArr = array();
-        $paymentIsPartial = false;
+        
         $amountPaid = null;
-        if ($digiwallet->getPaidStatus()) {
+        if ($isSuccess) {
             if ($this->paymentMethod == 'BW') {
                 $consumber_info = $digiwallet->getConsumerInfo();
                 if (!empty($consumber_info) && $consumber_info['bw_paid_amount'] > 0) {
@@ -144,7 +167,6 @@ class digiwalletPayment
             $response['error'] = 0;
             $response['message'] = 'Success';
         } else {
-            $errorMessage = $digiwallet->getErrorMessage();
             $response['error'] = 1;
             $response['message'] = $errorMessage;
         }
@@ -175,18 +197,67 @@ class digiwalletPayment
         return true;
     }
     
-    public function setupPayment()
+    public function startPayment()
     {
+        $transactionId = $bankUrl = $message = $result = $moreInformation = null;
         $moduleName = $this->params['paymentmethod'];
-        $digiWallet = new DigiWalletCore($this->paymentMethod, $this->params['rtlo']);
-        $digiWallet->setAmount(round($this->params['amount'] * 100));
-        $digiWallet->setDescription('Order ' . $invoiceId); // $order->id
-        // set return & report
-        $digiWallet->setReturnUrl($this->params['systemurl'] . "/modules/gateways/callback/{$moduleName}.php?invoice_id={$this->params['invoiceid']}&return_redirect={$this->params['returnurl']}");
-        $digiWallet->setReportUrl($this->params['systemurl'] . "/modules/gateways/callback/{$moduleName}.php?invoice_id={$this->params['invoiceid']}");
-        $digiWallet->bindParam('email', $this->params['clientdetails']['email']);
-        $this->additionalParameters($digiWallet);
-        return $digiWallet;
+        $rtlo = $this->params['rtlo'];
+        $token = $this->params['token'];
+        $amount = $this->params['amount'];
+        $description = 'Order ' . $this->params['invoiceid'];
+        $returnUrl = $this->params['systemurl'] . "/modules/gateways/callback/{$moduleName}.php?invoice_id={$this->params['invoiceid']}&return_redirect={$this->params['returnurl']}";
+        $reportUrl = $this->params['systemurl'] . "/modules/gateways/callback/{$moduleName}.php?invoice_id={$this->params['invoiceid']}";
+        if (in_array($this->paymentMethod, ['EPS', 'GIP'])) {
+            $digiwalletApi = new Client(self::DIGIWALLET_API);
+            $formParams = [
+                'outletId' => $rtlo,
+                'currencyCode' => $this->getCurrency(),
+                'consumerEmail' => $this->params['clientdetails']['email'],
+                'description' => $description,
+                'returnUrl' => $returnUrl,
+                'reportUrl' => $reportUrl,
+                'consumerIp' => $this->getCustomerIP(),
+                'suggestedLanguage' => 'NLD',
+                'amountChangeable' => false,
+                'inputAmount' => $amount * 100,
+                'paymentMethods' => [
+                    $this->paymentMethod
+                ],
+                'app_id' => DigiwalletCore::APP_ID,
+            ];
+            
+            $request = new CreateTransaction($digiwalletApi, $formParams);
+            $request->withBearer($token);
+            /** @var \Digiwallet\Packages\Transaction\Client\Response\CreateTransaction $apiResult */
+            $apiResult = $request->send();
+            $result = 0 == $apiResult->status() ? true : false;
+            $message = $apiResult->message();
+            $transactionId = $apiResult->transactionId();
+            $bankUrl = $apiResult->launchUrl();
+        } else {
+            $digiWallet = new DigiWalletCore($this->paymentMethod, $rtlo);
+            $digiWallet->setAmount(round($amount * 100));
+            $digiWallet->setDescription($description);
+            // set return & report
+            $digiWallet->setReturnUrl($returnUrl);
+            $digiWallet->setReportUrl($reportUrl);
+            $digiWallet->bindParam('email', $this->params['clientdetails']['email']);
+            $this->additionalParameters($digiWallet);
+            
+            $result = $digiWallet->startPayment();
+            $transactionId = $digiWallet->getTransactionId();
+            $bankUrl = $digiWallet->getBankUrl();
+            $message = $digiWallet->getErrorMessage();
+            $moreInformation = $digiWallet->getMoreInformation();
+        }
+        
+        return [
+            'result' => $result,
+            'transactionId' => $transactionId,
+            'bankUrl' => $bankUrl,
+            'message' => $message,
+            'moreInformation' => $moreInformation
+        ];
     }
     
     public static function formatPhone($country, $phone) {
@@ -395,5 +466,29 @@ class digiwalletPayment
         }
         $dwLang = require($langFile);
         return $dwLang;
+    }
+    
+    /***
+     * Get user's ip address
+     * @return mixed
+     */
+    public function getCustomerIP()
+    {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            //ip from share internet
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            //ip pass from proxy
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        
+        return $ip;
+    }
+    
+    public function getCurrency()
+    {
+        return self::DIGIWALLET_CURRENCY;
     }
 }

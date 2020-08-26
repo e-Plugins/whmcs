@@ -5,7 +5,7 @@
  * @author   digiwallet.nl
  * @url      https://www.digiwallet.nl
  * @release  11-10-2020
- * @ver      1.0
+ * @ver      1.1
  */
 
 /**
@@ -16,7 +16,7 @@ class DigiWalletCore
 {
     // Constants
 
-    const APP_ID = 'dw_whmcs7.9.2_1.0';
+    const APP_ID = 'dw_whmcs7.9.2_1.1';
 
     const MIN_AMOUNT            = 84;
 

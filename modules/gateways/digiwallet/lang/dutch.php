@@ -6,6 +6,7 @@ $dwLang['digiwallet']['token'] = "API token";
 $dwLang['digiwallet']['token_description'] = "Vul hier uw API token in";
 $dwLang['digiwallet']['bad_request'] = "Foute aanvraag";
 $dwLang['digiwallet']['error_missing_rtlo'] = "Uw outletID voor %s ontbreekt";
+$dwLang['digiwallet']['error_missing_token'] = "Uw API token voor %s ontbreekt";
 $dwLang['digiwallet']['error_module_not_activated'] = "Module is niet geactiveerd";
 $dwLang['digiwallet']['invoice_paid'] = "Factuur %s is betaald";
 $dwLang['digiwallet']['bw_instruction_1'] = "Bedankt voor uw bestelling in onze webwinkel!";

@@ -44,33 +44,35 @@ if ($invoice->status == 'paid') {
 }
 
 $params = $_POST;
+$params['invoiceid'] = $invoiceId;
 $params['systemurl'] = $CONFIG['SystemURL'];
 $params['returnurl'] = $returnUrl;
 $params['rtlo'] = $gatewayParams['rtlo'];
+$params['token'] = $gatewayParams['token'];
 $params['amount'] = $invoice->total;
 $params['paymentmethod'] = $gatewayModuleName;
 $params['clientdetails']['email'] = urldecode($params['clientdetails']['email']);
 $digiwalletPayment = new digiwalletPayment($params);
-$digiWallet = $digiwalletPayment->setupPayment();
-$url = $digiWallet->startPayment();
-if ($url) {
+$result = $digiwalletPayment->startPayment();
+
+if ($result['result']) {
     Capsule::table('mod_digiwallet')->insert(
         [
             'invoice_id' => $invoiceId,
             'rtlo' => $params['rtlo'],
-            'transaction_id' => $digiWallet->getTransactionId(),
+            'transaction_id' => $result['transactionId'],
             'amount' => $params['amount'],
             'payment_method' => $digiwalletPayment->paymentMethod,
-            'bw_data' => $digiWallet->getMoreInformation(),
+            'bw_data' => $result['moreInformation'],
         ]
     );
     if ($digiwalletPayment->paymentMethod == 'BW') {
         header("Location: {$returnUrl}");
         exit();
     }
-    header("Location: {$url}");
+    header("Location: {$result['bankUrl']}");
     exit();
 }
-logActivity($digiWallet->getErrorMessage());
-$redirect = $returnUrl . '&error=' . $digiWallet->getErrorMessage();
+logActivity($result['message']);
+$redirect = $returnUrl . '&error=' . $result['message'];
 header("Location: {$redirect}");exit();

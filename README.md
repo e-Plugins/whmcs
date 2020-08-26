@@ -1,9 +1,9 @@
 # WHMCS Digiwallet Payment Gateway Module #
 
 ## Summary ##
-Activates iDEAL, Bancontact, Sofort Banking, Visa / Mastercard Credit cards, PaysafeCard, AfterPay, BankWire, PayPal and Refunds in WHMCS
+Activates iDEAL, Bancontact, Sofort Banking, , GiroPay, EPS, Visa / Mastercard Credit cards, PaysafeCard, AfterPay, BankWire, PayPal and Refunds in WHMCS
 ## Requirements ##
-- Working WHMCS installation (tested up to version 7.9.2).
+- Working WHMCS installation (tested up to version 7.10.2).
 - Digiwallet account, you can register for free at https://www.digiwallet.nl/en/signup
 
 ## Installation ##
