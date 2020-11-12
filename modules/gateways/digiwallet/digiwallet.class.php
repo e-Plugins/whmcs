@@ -16,7 +16,7 @@ class DigiWalletCore
 {
     // Constants
 
-    const APP_ID = 'dw_whmcs7.9.2_1.1';
+    const APP_ID = 'dw_whmcs7.9.2_1.2';
 
     const MIN_AMOUNT            = 84;
 
