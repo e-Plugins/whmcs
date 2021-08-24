@@ -76,7 +76,7 @@
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
-                "GuzzleHttp\\": "src/"
+                "DigiwalletGuzzleHttp\\": "src/"
             },
             "files": [
                 "src/functions_include.php"
@@ -136,7 +136,7 @@
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
-                "GuzzleHttp\\Promise\\": "src/"
+                "DigiwalletGuzzleHttp\\Promise\\": "src/"
             },
             "files": [
                 "src/functions_include.php"
@@ -198,7 +198,7 @@
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
-                "GuzzleHttp\\Psr7\\": "src/"
+                "DigiwalletGuzzleHttp\\Psr7\\": "src/"
             },
             "files": [
                 "src/functions_include.php"

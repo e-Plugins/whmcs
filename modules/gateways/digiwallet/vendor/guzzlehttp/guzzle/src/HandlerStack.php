@@ -1,7 +1,7 @@
 <?php
-namespace GuzzleHttp;
+namespace DigiwalletGuzzleHttp;
 
-use GuzzleHttp\Promise\PromiseInterface;
+use DigiwalletGuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -39,7 +39,7 @@ class HandlerStack
      */
     public static function create(callable $handler = null)
     {
-        $stack = new self($handler ?: choose_handler());
+        $stack = new self($handler ?: dw_choose_handler());
         $stack->push(Middleware::httpErrors(), 'http_errors');
         $stack->push(Middleware::redirect(), 'allow_redirects');
         $stack->push(Middleware::cookies(), 'cookies');

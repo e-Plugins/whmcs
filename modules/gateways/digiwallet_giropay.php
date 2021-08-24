@@ -52,14 +52,14 @@ function digiwallet_giropay_config()
             'FriendlyName' => $dwLang['digiwallet']['rtlo'],
             'Type' => 'text',
             'Size' => '25',
-            'Default' => '',
+            'Default' => '156187',
             'Description' => $dwLang['digiwallet']['rtlo_description'],
         ),
         'token' => array(
             'FriendlyName' => $dwLang['digiwallet']['token'],
             'Type' => 'text',
             'Size' => '25',
-            'Default' => '',
+            'Default' => 'bf72755a648832f48f0995454',
             'Description' => $dwLang['digiwallet']['token_description'],
         )
     );

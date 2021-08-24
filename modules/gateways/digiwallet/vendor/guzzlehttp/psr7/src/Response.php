@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Psr7;
+namespace DigiwalletGuzzleHttp\Psr7;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -100,7 +100,7 @@ class Response implements ResponseInterface
         $this->statusCode = $status;
 
         if ($body !== '' && $body !== null) {
-            $this->stream = stream_for($body);
+            $this->stream = dw_stream_for($body);
         }
 
         $this->setHeaders($headers);

@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp;
+namespace DigiwalletGuzzleHttp;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

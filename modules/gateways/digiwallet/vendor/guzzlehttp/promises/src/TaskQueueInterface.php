@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Promise;
+namespace DigiwalletGuzzleHttp\Promise;
 
 interface TaskQueueInterface
 {

@@ -1,13 +1,13 @@
 <?php
-namespace GuzzleHttp\Handler;
+namespace DigiwalletGuzzleHttp\Handler;
 
-use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Promise\FulfilledPromise;
-use GuzzleHttp\Promise\PromiseInterface;
-use GuzzleHttp\Psr7;
-use GuzzleHttp\TransferStats;
-use GuzzleHttp\Utils;
+use DigiwalletGuzzleHttp\Exception\ConnectException;
+use DigiwalletGuzzleHttp\Exception\RequestException;
+use DigiwalletGuzzleHttp\Promise\FulfilledPromise;
+use DigiwalletGuzzleHttp\Promise\PromiseInterface;
+use DigiwalletGuzzleHttp\Psr7;
+use DigiwalletGuzzleHttp\TransferStats;
+use DigiwalletGuzzleHttp\Utils;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -68,7 +68,7 @@ class StreamHandler
             $e = RequestException::wrapException($request, $e);
             $this->invokeStats($options, $request, $startTime, null, $e);
 
-            return \GuzzleHttp\Promise\rejection_for($e);
+            return \DigiwalletGuzzleHttp\Promise\dw_rejection_for($e);
         }
     }
 
@@ -103,9 +103,9 @@ class StreamHandler
         $ver = explode('/', $parts[0])[1];
         $status = $parts[1];
         $reason = isset($parts[2]) ? $parts[2] : null;
-        $headers = \GuzzleHttp\headers_from_lines($hdrs);
+        $headers = \DigiwalletGuzzleHttp\dw_headers_from_lines($hdrs);
         list($stream, $headers) = $this->checkDecode($options, $headers, $stream);
-        $stream = Psr7\stream_for($stream);
+        $stream = Psr7\dw_stream_for($stream);
         $sink = $stream;
 
         if (strcasecmp('HEAD', $request->getMethod())) {
@@ -120,7 +120,7 @@ class StreamHandler
             } catch (\Exception $e) {
                 $msg = 'An error was encountered during the on_headers event';
                 $ex = new RequestException($msg, $request, $response, $e);
-                return \GuzzleHttp\Promise\rejection_for($ex);
+                return \DigiwalletGuzzleHttp\Promise\dw_rejection_for($ex);
             }
         }
 
@@ -151,19 +151,19 @@ class StreamHandler
 
         return is_string($sink)
             ? new Psr7\LazyOpenStream($sink, 'w+')
-            : Psr7\stream_for($sink);
+            : Psr7\dw_stream_for($sink);
     }
 
     private function checkDecode(array $options, array $headers, $stream)
     {
         // Automatically decode responses when instructed.
         if (!empty($options['decode_content'])) {
-            $normalizedKeys = \GuzzleHttp\normalize_header_keys($headers);
+            $normalizedKeys = \DigiwalletGuzzleHttp\dw_normalize_header_keys($headers);
             if (isset($normalizedKeys['content-encoding'])) {
                 $encoding = $headers[$normalizedKeys['content-encoding']];
                 if ($encoding[0] === 'gzip' || $encoding[0] === 'deflate') {
                     $stream = new Psr7\InflateStream(
-                        Psr7\stream_for($stream)
+                        Psr7\dw_stream_for($stream)
                     );
                     $headers['x-encoded-content-encoding']
                         = $headers[$normalizedKeys['content-encoding']];
@@ -208,7 +208,7 @@ class StreamHandler
         // that number of bytes has been read. This can prevent infinitely
         // reading from a stream when dealing with servers that do not honor
         // Connection: Close headers.
-        Psr7\copy_to_stream(
+        Psr7\dw_copy_to_stream(
             $source,
             $sink,
             (strlen($contentLength) > 0 && (int) $contentLength > 0) ? (int) $contentLength : -1
@@ -413,7 +413,7 @@ class StreamHandler
             $scheme = $request->getUri()->getScheme();
             if (isset($value[$scheme])) {
                 if (!isset($value['no'])
-                    || !\GuzzleHttp\is_host_in_noproxy(
+                    || !\DigiwalletGuzzleHttp\dw_is_host_in_noproxy(
                         $request->getUri()->getHost(),
                         $value['no']
                     )
@@ -437,7 +437,7 @@ class StreamHandler
             // PHP 5.6 or greater will find the system cert by default. When
             // < 5.6, use the Guzzle bundled cacert.
             if (PHP_VERSION_ID < 50600) {
-                $options['ssl']['cafile'] = \GuzzleHttp\default_ca_bundle();
+                $options['ssl']['cafile'] = \DigiwalletGuzzleHttp\dw_default_ca_bundle();
             }
         } elseif (is_string($value)) {
             $options['ssl']['cafile'] = $value;
@@ -504,7 +504,7 @@ class StreamHandler
         static $args = ['severity', 'message', 'message_code',
             'bytes_transferred', 'bytes_max'];
 
-        $value = \GuzzleHttp\debug_resource($value);
+        $value = \DigiwalletGuzzleHttp\dw_debug_resource($value);
         $ident = $request->getMethod() . ' ' . $request->getUri()->withFragment('');
         $this->addNotification(
             $params,

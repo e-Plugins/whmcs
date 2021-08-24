@@ -1,12 +1,12 @@
 <?php
 $dwLang['digiwallet']['default_method_name'] = "Digiwallet for %s";
-$dwLang['digiwallet']['rtlo'] = "Digiwallet Outlet Identifier";
-$dwLang['digiwallet']['rtlo_description'] = "Enter Digiwallet Outlet Identifier here";
-$dwLang['digiwallet']['token'] = "Digiwallet token";
-$dwLang['digiwallet']['token_description'] = "Enter Digiwallet token here";
+$dwLang['digiwallet']['rtlo'] = "Digiwallet Outletcode";
+$dwLang['digiwallet']['rtlo_description'] = "Enter Digiwallet Outletcode here";
+$dwLang['digiwallet']['token'] = "Digiwallet API token";
+$dwLang['digiwallet']['token_description'] = "Enter Digiwallet API token here";
 $dwLang['digiwallet']['bad_request'] = "Bad request";
-$dwLang['digiwallet']['error_missing_rtlo'] = "Missing Digiwallet Outlet Identifier for %s";
-$dwLang['digiwallet']['error_missing_token'] = "Missing Digiwallet token for %s";
+$dwLang['digiwallet']['error_missing_rtlo'] = "Missing Digiwallet Outletcode for %s";
+$dwLang['digiwallet']['error_missing_token'] = "Missing Digiwallet API token for %s";
 $dwLang['digiwallet']['error_module_not_activated'] = "Module Not Activated";
 $dwLang['digiwallet']['invoice_paid'] = "Invoice %s had been paid";
 $dwLang['digiwallet']['bw_instruction_1'] = "Thank you for ordering in our webshop!";

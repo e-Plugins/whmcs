@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "GuzzleHttp\\Promise\\": "src/"
+            "DigiwalletGuzzleHttp\\Promise\\": "src/"
         },
         "files": ["src/functions_include.php"]
     },

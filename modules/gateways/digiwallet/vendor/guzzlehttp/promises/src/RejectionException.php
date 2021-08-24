@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Promise;
+namespace DigiwalletGuzzleHttp\Promise;
 
 /**
  * A special exception that is thrown when waiting on a rejected promise.

@@ -1,10 +1,10 @@
 <?php
-namespace GuzzleHttp;
+namespace DigiwalletGuzzleHttp;
 
-use GuzzleHttp\Handler\CurlHandler;
-use GuzzleHttp\Handler\CurlMultiHandler;
-use GuzzleHttp\Handler\Proxy;
-use GuzzleHttp\Handler\StreamHandler;
+use DigiwalletGuzzleHttp\Handler\CurlHandler;
+use DigiwalletGuzzleHttp\Handler\CurlMultiHandler;
+use DigiwalletGuzzleHttp\Handler\Proxy;
+use DigiwalletGuzzleHttp\Handler\StreamHandler;
 
 /**
  * Expands a URI template
@@ -14,7 +14,7 @@ use GuzzleHttp\Handler\StreamHandler;
  *
  * @return string
  */
-function uri_template($template, array $variables)
+function dw_uri_template($template, array $variables)
 {
     if (extension_loaded('uri_template')) {
         // @codeCoverageIgnoreStart
@@ -38,7 +38,7 @@ function uri_template($template, array $variables)
  * @return string Returns a string containing the type of the variable and
  *                if a class is provided, the class name.
  */
-function describe_type($input)
+function dw_describe_type($input)
 {
     switch (gettype($input)) {
         case 'object':
@@ -60,7 +60,7 @@ function describe_type($input)
  *                     format: "Name: Value"
  * @return array
  */
-function headers_from_lines($lines)
+function dw_headers_from_lines($lines)
 {
     $headers = [];
 
@@ -81,7 +81,7 @@ function headers_from_lines($lines)
  *
  * @return resource
  */
-function debug_resource($value = null)
+function dw_debug_resource($value = null)
 {
     if (is_resource($value)) {
         return $value;
@@ -100,7 +100,7 @@ function debug_resource($value = null)
  * @return callable Returns the best handler for the given system.
  * @throws \RuntimeException if no viable Handler is available.
  */
-function choose_handler()
+function dw_choose_handler()
 {
     $handler = null;
     if (function_exists('curl_multi_exec') && function_exists('curl_exec')) {
@@ -116,7 +116,7 @@ function choose_handler()
             ? Proxy::wrapStreaming($handler, new StreamHandler())
             : new StreamHandler();
     } elseif (!$handler) {
-        throw new \RuntimeException('GuzzleHttp requires cURL, the '
+        throw new \RuntimeException('DigiwalletGuzzleHttp requires cURL, the '
             . 'allow_url_fopen ini setting, or a custom HTTP handler.');
     }
 
@@ -128,12 +128,12 @@ function choose_handler()
  *
  * @return string
  */
-function default_user_agent()
+function dw_default_user_agent()
 {
     static $defaultAgent = '';
 
     if (!$defaultAgent) {
-        $defaultAgent = 'GuzzleHttp/' . Client::VERSION;
+        $defaultAgent = 'DigiwalletGuzzleHttp/' . Client::VERSION;
         if (extension_loaded('curl') && function_exists('curl_version')) {
             $defaultAgent .= ' curl/' . \curl_version()['version'];
         }
@@ -157,7 +157,7 @@ function default_user_agent()
  * @return string
  * @throws \RuntimeException if no bundle can be found.
  */
-function default_ca_bundle()
+function dw_default_ca_bundle()
 {
     static $cached = null;
     static $cafiles = [
@@ -222,7 +222,7 @@ EOT
  *
  * @return array
  */
-function normalize_header_keys(array $headers)
+function dw_normalize_header_keys(array $headers)
 {
     $result = [];
     foreach (array_keys($headers) as $key) {
@@ -251,7 +251,7 @@ function normalize_header_keys(array $headers)
  *
  * @return bool
  */
-function is_host_in_noproxy($host, array $noProxyArray)
+function dw_is_host_in_noproxy($host, array $noProxyArray)
 {
     if (strlen($host) === 0) {
         throw new \InvalidArgumentException('Empty host provided');
@@ -298,7 +298,7 @@ function is_host_in_noproxy($host, array $noProxyArray)
  * @throws Exception\InvalidArgumentException if the JSON cannot be decoded.
  * @link http://www.php.net/manual/en/function.json-decode.php
  */
-function json_decode($json, $assoc = false, $depth = 512, $options = 0)
+function dw_json_decode($json, $assoc = false, $depth = 512, $options = 0)
 {
     $data = \json_decode($json, $assoc, $depth, $options);
     if (JSON_ERROR_NONE !== json_last_error()) {
@@ -321,7 +321,7 @@ function json_decode($json, $assoc = false, $depth = 512, $options = 0)
  * @throws Exception\InvalidArgumentException if the JSON cannot be encoded.
  * @link http://www.php.net/manual/en/function.json-encode.php
  */
-function json_encode($value, $options = 0, $depth = 512)
+function dw_json_encode($value, $options = 0, $depth = 512)
 {
     $json = \json_encode($value, $options, $depth);
     if (JSON_ERROR_NONE !== json_last_error()) {

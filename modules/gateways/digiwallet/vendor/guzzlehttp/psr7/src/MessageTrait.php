@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Psr7;
+namespace DigiwalletGuzzleHttp\Psr7;
 
 use Psr\Http\Message\StreamInterface;
 
@@ -117,7 +117,7 @@ trait MessageTrait
     public function getBody()
     {
         if (!$this->stream) {
-            $this->stream = stream_for('');
+            $this->stream = dw_stream_for('');
         }
 
         return $this->stream;

@@ -1,11 +1,11 @@
 <?php
 $dwLang['digiwallet']['default_method_name'] = "Digiwallet voor %s";
-$dwLang['digiwallet']['rtlo'] = "DigiWallet OutletID";
-$dwLang['digiwallet']['rtlo_description'] = "Vul hier uw OutletID in";
+$dwLang['digiwallet']['rtlo'] = "DigiWallet Outletcode";
+$dwLang['digiwallet']['rtlo_description'] = "Vul hier uw Outletcode in";
 $dwLang['digiwallet']['token'] = "API token";
 $dwLang['digiwallet']['token_description'] = "Vul hier uw API token in";
 $dwLang['digiwallet']['bad_request'] = "Foute aanvraag";
-$dwLang['digiwallet']['error_missing_rtlo'] = "Uw outletID voor %s ontbreekt";
+$dwLang['digiwallet']['error_missing_rtlo'] = "Uw outletcode voor %s ontbreekt";
 $dwLang['digiwallet']['error_missing_token'] = "Uw API token voor %s ontbreekt";
 $dwLang['digiwallet']['error_module_not_activated'] = "Module is niet geactiveerd";
 $dwLang['digiwallet']['invoice_paid'] = "Factuur %s is betaald";

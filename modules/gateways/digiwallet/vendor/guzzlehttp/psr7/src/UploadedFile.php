@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Psr7;
+namespace DigiwalletGuzzleHttp\Psr7;
 
 use InvalidArgumentException;
 use Psr\Http\Message\StreamInterface;
@@ -259,7 +259,7 @@ class UploadedFile implements UploadedFileInterface
                 ? rename($this->file, $targetPath)
                 : move_uploaded_file($this->file, $targetPath);
         } else {
-            copy_to_stream(
+            dw_copy_to_stream(
                 $this->getStream(),
                 new LazyOpenStream($targetPath, 'w')
             );

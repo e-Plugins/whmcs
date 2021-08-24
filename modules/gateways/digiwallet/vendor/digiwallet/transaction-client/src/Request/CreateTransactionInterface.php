@@ -5,7 +5,7 @@ use BadMethodCallException;
 use Digiwallet\Packages\Transaction\Client\InvoiceLine\InvoiceLineInterface as InvoiceLine;
 use Digiwallet\Packages\Transaction\Client\Response\CreateTransactionInterface as CreateTransactionResponse;
 use Digiwallet\Packages\Transaction\Client\Response\CreateTransactionInterface as CreateTransactionResponseInterface;
-use GuzzleHttp\Exception\GuzzleException;
+use DigiwalletGuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\RequestInterface;
 
 /**

@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Promise;
+namespace DigiwalletGuzzleHttp\Promise;
 
 /**
  * Represents a promise that iterates over many promises and invokes
@@ -50,7 +50,7 @@ class EachPromise implements PromisorInterface
      */
     public function __construct($iterable, array $config = [])
     {
-        $this->iterable = iter_for($iterable);
+        $this->iterable = dw_iter_for($iterable);
 
         if (isset($config['concurrency'])) {
             $this->concurrency = $config['concurrency'];
@@ -148,7 +148,7 @@ class EachPromise implements PromisorInterface
             return false;
         }
 
-        $promise = promise_for($this->iterable->current());
+        $promise = dw_promise_for($this->iterable->current());
         $idx = $this->iterable->key();
 
         $this->pending[$idx] = $promise->then(

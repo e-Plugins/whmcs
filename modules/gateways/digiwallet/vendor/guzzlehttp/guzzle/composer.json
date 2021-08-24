@@ -45,7 +45,7 @@
     },
     "autoload": {
         "psr-4": {
-            "GuzzleHttp\\": "src/"
+            "DigiwalletGuzzleHttp\\": "src/"
         },
         "files": [
             "src/functions_include.php"
@@ -53,7 +53,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "GuzzleHttp\\Tests\\": "tests/"
+            "DigiwalletGuzzleHttp\\Tests\\": "tests/"
         }
     }
 }

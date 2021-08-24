@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp;
+namespace DigiwalletGuzzleHttp;
 
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
@@ -80,10 +80,10 @@ class MessageFormatter
                 $result = '';
                 switch ($matches[1]) {
                     case 'request':
-                        $result = Psr7\str($request);
+                        $result = Psr7\dw_str($request);
                         break;
                     case 'response':
-                        $result = $response ? Psr7\str($response) : '';
+                        $result = $response ? Psr7\dw_str($response) : '';
                         break;
                     case 'req_headers':
                         $result = trim($request->getMethod()

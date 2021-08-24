@@ -1,8 +1,8 @@
 <?php
-namespace GuzzleHttp;
+namespace DigiwalletGuzzleHttp;
 
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Promise\PromiseInterface;
+use DigiwalletGuzzleHttp\Exception\GuzzleException;
+use DigiwalletGuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;

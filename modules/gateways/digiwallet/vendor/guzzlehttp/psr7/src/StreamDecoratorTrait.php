@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Psr7;
+namespace DigiwalletGuzzleHttp\Psr7;
 
 use Psr\Http\Message\StreamInterface;
 
@@ -52,7 +52,7 @@ trait StreamDecoratorTrait
 
     public function getContents()
     {
-        return copy_to_string($this);
+        return dw_copy_to_string($this);
     }
 
     /**

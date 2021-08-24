@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Promise;
+namespace DigiwalletGuzzleHttp\Promise;
 
 /**
  * Promises/A+ implementation that avoids recursion when possible.
@@ -42,13 +42,13 @@ class Promise implements PromiseInterface
         // Return a fulfilled promise and immediately invoke any callbacks.
         if ($this->state === self::FULFILLED) {
             return $onFulfilled
-                ? promise_for($this->result)->then($onFulfilled)
-                : promise_for($this->result);
+                ? dw_promise_for($this->result)->then($onFulfilled)
+                : dw_promise_for($this->result);
         }
 
         // It's either cancelled or rejected, so return a rejected promise
         // and immediately invoke any callbacks.
-        $rejection = rejection_for($this->result);
+        $rejection = dw_rejection_for($this->result);
         return $onRejected ? $rejection->then(null, $onRejected) : $rejection;
     }
 
@@ -72,7 +72,7 @@ class Promise implements PromiseInterface
                 return $inner;
             } else {
                 // It's rejected so "unwrap" and throw an exception.
-                throw exception_for($inner);
+                throw dw_exception_for($inner);
             }
         }
     }
@@ -110,15 +110,15 @@ class Promise implements PromiseInterface
 
     public function resolve($value)
     {
-        $this->settle(self::FULFILLED, $value);
+        $this->dw_settle(self::FULFILLED, $value);
     }
 
     public function reject($reason)
     {
-        $this->settle(self::REJECTED, $reason);
+        $this->dw_settle(self::REJECTED, $reason);
     }
 
-    private function settle($state, $value)
+    private function dw_settle($state, $value)
     {
         if ($this->state !== self::PENDING) {
             // Ignore calls with the same resolution.
@@ -151,7 +151,7 @@ class Promise implements PromiseInterface
         if (!method_exists($value, 'then')) {
             $id = $state === self::FULFILLED ? 1 : 2;
             // It's a success, so resolve the handlers in the queue.
-            queue()->add(static function () use ($id, $value, $handlers) {
+            dw_queue()->add(static function () use ($id, $value, $handlers) {
                 foreach ($handlers as $handler) {
                     self::callHandler($id, $value, $handler);
                 }
@@ -231,7 +231,7 @@ class Promise implements PromiseInterface
                 . 'wait on a promise.');
         }
 
-        queue()->run();
+        dw_queue()->run();
 
         if ($this->state === self::PENDING) {
             $this->reject('Invoking the wait callback did not resolve the promise');

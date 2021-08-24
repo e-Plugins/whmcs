@@ -25,7 +25,7 @@ if (!defined("WHMCS")) {
 function digiwallet_bankwire_MetaData()
 {
     return array(
-        'DisplayName' => 'Digiwallet - Bankwire',
+        'DisplayName' => 'Digiwallet - Bankwire - Overschrijving',
         'APIVersion' => '1.1', // Use API Version 1.1
         'DisableLocalCredtCardInput' => true,
         'TokenisedStorage' => false,
@@ -46,20 +46,20 @@ function digiwallet_bankwire_config()
         // defined here for backwards compatibility
         'FriendlyName' => array(
             'Type' => 'System',
-            'Value' => sprintf($dwLang['digiwallet']['default_method_name'], 'Bankwire'),
+            'Value' => sprintf($dwLang['digiwallet']['default_method_name'], 'Bankwire - Overschrijving'),
         ),
         'rtlo' => array(
             'FriendlyName' => $dwLang['digiwallet']['rtlo'],
             'Type' => 'text',
             'Size' => '25',
-            'Default' => '',
+            'Default' => '156187',
             'Description' => $dwLang['digiwallet']['rtlo_description'],
         ),
         'token' => array(
             'FriendlyName' => $dwLang['digiwallet']['token'],
             'Type' => 'text',
             'Size' => '25',
-            'Default' => '',
+            'Default' => 'bf72755a648832f48f0995454',
             'Description' => $dwLang['digiwallet']['token_description'],
         )
     );

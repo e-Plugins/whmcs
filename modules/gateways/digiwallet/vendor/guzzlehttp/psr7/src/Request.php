@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Psr7;
+namespace DigiwalletGuzzleHttp\Psr7;
 
 use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
@@ -51,7 +51,7 @@ class Request implements RequestInterface
         }
 
         if ($body !== '' && $body !== null) {
-            $this->stream = stream_for($body);
+            $this->stream = dw_stream_for($body);
         }
     }
 

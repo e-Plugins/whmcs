@@ -1,0 +1,36 @@
+{
+    "schema": "1.0",
+    "type": "whmcs-gateways",
+    "name": "digiwallet_paypal",
+    "license": "proprietary",
+    "category": "payments",
+    "description": {
+        "name": "DigiWallet for Paypal",
+        "tagline": "De online wallet met bijna 200 miljoen gebruikers",
+        "long": "Bescherming, flexibiliteit en gemak",
+        "features": [
+            "Wereldwijd vertrouwd",
+            "Aankoop- en verkoopbescherming",
+            "Conversieverhogend",
+            "Alle betaalmethodes in een transactieoverzicht",
+            "Technische ondersteuning"
+            
+        ]
+    },
+    "logo": {
+        "filename": "PYP.png"
+    },
+    "support": {
+        "homepage": "https://www.digiwallet.nl", 
+        "learn_more": "https://www.digiwallet.nl", 
+        "email": "techsupport@targetmedia.nl", 
+        "support_url": "https://www.digiwallet.nl/faq",
+        "docs_url": "https://www.digiwallet.nl/documentation/paymethods/paypal"
+    },
+    "authors": [
+        {
+            "name": "DigiWallet.nl",
+            "homepage": "https://www.digiwallet.nl"
+        }
+    ]
+}

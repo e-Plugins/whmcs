@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Promise;
+namespace DigiwalletGuzzleHttp\Promise;
 
 use Exception;
 use Generator;
@@ -16,13 +16,13 @@ use Throwable;
  * This can lead to less verbose code when doing lots of sequential async calls
  * with minimal processing in between.
  *
- *     use GuzzleHttp\Promise;
+ *     use DigiwalletGuzzleHttp\Promise;
  *
  *     function createPromise($value) {
  *         return new Promise\FulfilledPromise($value);
  *     }
  *
- *     $promise = Promise\coroutine(function () {
+ *     $promise = Promise\dw_coroutine(function () {
  *         $value = (yield createPromise('a'));
  *         try {
  *             $value = (yield createPromise($value . 'b'));
@@ -108,7 +108,7 @@ final class Coroutine implements PromiseInterface
 
     private function nextCoroutine($yielded)
     {
-        $this->currentPromise = promise_for($yielded)
+        $this->currentPromise = dw_promise_for($yielded)
             ->then([$this, '_handleSuccess'], [$this, '_handleFailure']);
     }
 
@@ -139,7 +139,7 @@ final class Coroutine implements PromiseInterface
     {
         unset($this->currentPromise);
         try {
-            $nextYield = $this->generator->throw(exception_for($reason));
+            $nextYield = $this->generator->throw(dw_exception_for($reason));
             // The throw was caught, so keep iterating on the coroutine
             $this->nextCoroutine($nextYield);
         } catch (Exception $exception) {

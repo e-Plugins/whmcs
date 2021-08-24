@@ -1,10 +1,10 @@
 <?php
-namespace GuzzleHttp;
+namespace DigiwalletGuzzleHttp;
 
-use GuzzleHttp\Exception\BadResponseException;
-use GuzzleHttp\Exception\TooManyRedirectsException;
-use GuzzleHttp\Promise\PromiseInterface;
-use GuzzleHttp\Psr7;
+use DigiwalletGuzzleHttp\Exception\BadResponseException;
+use DigiwalletGuzzleHttp\Exception\TooManyRedirectsException;
+use DigiwalletGuzzleHttp\Promise\PromiseInterface;
+use DigiwalletGuzzleHttp\Psr7;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
@@ -13,7 +13,7 @@ use Psr\Http\Message\UriInterface;
  * Request redirect middleware.
  *
  * Apply this middleware like other middleware using
- * {@see \GuzzleHttp\Middleware::redirect()}.
+ * {@see \DigiwalletGuzzleHttp\Middleware::redirect()}.
  */
 class RedirectMiddleware
 {
@@ -197,7 +197,7 @@ class RedirectMiddleware
         }
 
         $modify['uri'] = $uri;
-        Psr7\rewind_body($request);
+        Psr7\dw_rewind_body($request);
 
         // Add the Referer header if it is told to do so and only
         // add the header if we are not redirecting from https to http.
@@ -215,7 +215,7 @@ class RedirectMiddleware
             $modify['remove_headers'][] = 'Authorization';
         }
 
-        return Psr7\modify_request($request, $modify);
+        return Psr7\dw_modify_request($request, $modify);
     }
 
     /**

@@ -8,9 +8,9 @@ use Digiwallet\Packages\Transaction\Client\InvoiceLine\InvoiceLineInterface as I
 use Digiwallet\Packages\Transaction\Client\Payment\Payment;
 use Digiwallet\Packages\Transaction\Client\Response\CreateTransaction as CreateTransactionResponse;
 use Digiwallet\Packages\Transaction\Client\Response\CreateTransactionInterface as CreateTransactionResponseInterface;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Psr7\Request;
-use function GuzzleHttp\Psr7\stream_for;
+use DigiwalletGuzzleHttp\Exception\GuzzleException;
+use DigiwalletGuzzleHttp\Psr7\Request;
+use function DigiwalletGuzzleHttp\Psr7\dw_stream_for;
 
 /**
  * Class CreateTransaction
@@ -379,7 +379,7 @@ class CreateTransaction extends Request implements CreateTransactionInterface
             $body['afterpayInvoiceLines'] = $this->invoiceLines;
         }
 
-        $stream = stream_for(json_encode($body));
+        $stream = dw_stream_for(json_encode($body));
 
         return $this->withBody($stream);
     }

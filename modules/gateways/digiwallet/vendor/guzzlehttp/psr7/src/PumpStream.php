@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Psr7;
+namespace DigiwalletGuzzleHttp\Psr7;
 
 use Psr\Http\Message\StreamInterface;
 
@@ -51,7 +51,7 @@ class PumpStream implements StreamInterface
     public function __toString()
     {
         try {
-            return copy_to_string($this);
+            return dw_copy_to_string($this);
         } catch (\Exception $e) {
             return '';
         }

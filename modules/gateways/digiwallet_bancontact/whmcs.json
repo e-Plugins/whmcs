@@ -1,0 +1,36 @@
+{
+    "schema": "1.0",
+    "type": "whmcs-gateways",
+    "name": "digiwallet_bancontact",
+    "license": "proprietary",
+    "category": "payments",
+    "description": {
+        "name": "DigiWallet for Bancontact",
+        "tagline": "Grootste betaalmethode van Belgie",
+        "long": "De betaalmethode om de Belgische markt te kunnen bedienen",
+        "features": [
+            "Meest gebruikte betaalmethode in Belgie",
+            "Alle betalingen zijn gegarandeerd en kunnen niet geannuleerd worden",
+            "Bancontact straalt vertrouwen en veiligheid uit",
+            "Alleen transactiekosten voor geslaagde transacties",
+            "Technische ondersteuning"
+            
+        ]
+    },
+    "logo": {
+        "filename": "MRC.png"
+    },
+    "support": {
+        "homepage": "https://www.digiwallet.nl", 
+        "learn_more": "https://www.digiwallet.nl", 
+        "email": "techsupport@targetmedia.nl", 
+        "support_url": "https://www.digiwallet.nl/faq",
+        "docs_url": "https://www.digiwallet.nl/documentation/paymethods/bancontact"
+    },
+    "authors": [
+        {
+            "name": "DigiWallet.nl",
+            "homepage": "https://www.digiwallet.nl"
+        }
+    ]
+}

@@ -31,9 +31,9 @@ class ComposerStaticInitb718f447ed23b30d8a442455633940a0
         ),
         'G' => 
         array (
-            'GuzzleHttp\\Psr7\\' => 16,
-            'GuzzleHttp\\Promise\\' => 19,
-            'GuzzleHttp\\' => 11,
+            'DigiwalletGuzzleHttp\\Psr7\\' => 16,
+            'DigiwalletGuzzleHttp\\Promise\\' => 19,
+            'DigiwalletGuzzleHttp\\' => 11,
         ),
         'D' => 
         array (
@@ -62,15 +62,15 @@ class ComposerStaticInitb718f447ed23b30d8a442455633940a0
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'GuzzleHttp\\Psr7\\' => 
+        'DigiwalletGuzzleHttp\\Psr7\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
         ),
-        'GuzzleHttp\\Promise\\' => 
+        'DigiwalletGuzzleHttp\\Promise\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
         ),
-        'GuzzleHttp\\' => 
+        'DigiwalletGuzzleHttp\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),

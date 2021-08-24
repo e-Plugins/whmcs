@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Exception;
+namespace DigiwalletGuzzleHttp\Exception;
 
 class TooManyRedirectsException extends RequestException
 {

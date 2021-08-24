@@ -1,0 +1,36 @@
+{
+    "schema": "1.0",
+    "type": "whmcs-gateways",
+    "name": "digiwallet_giropay",
+    "license": "proprietary",
+    "category": "payments",
+    "description": {
+        "name": "DigiWallet for Giropay",
+        "tagline": "De betaalmethode van Duitsland",
+        "long": "Wij handelen uw online transacties veilig af",
+        "features": [
+            "Meest gebruikte betaalmethode in Duitsland",
+            "Alle betalingen zijn gegarandeerd en kunnen niet geannuleerd worden",
+            "GiroPay straalt vertrouwen en veiligheid uit",
+            "Geen aansluit- of maandkosten",
+            "Alleen transactiekosten voor geslaagde transacties"
+            
+        ]
+    },
+    "logo": {
+        "filename": "GIP.png"
+    },
+    "support": {
+        "homepage": "https://www.digiwallet.nl", 
+        "learn_more": "https://www.digiwallet.nl", 
+        "email": "techsupport@targetmedia.nl", 
+        "support_url": "https://www.digiwallet.nl/faq",
+        "docs_url": "https://www.digiwallet.nl/documentation/paymethods/giropay"
+    },
+    "authors": [
+        {
+            "name": "DigiWallet.nl",
+            "homepage": "https://www.digiwallet.nl"
+        }
+    ]
+}

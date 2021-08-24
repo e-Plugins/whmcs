@@ -16,12 +16,12 @@ decorators.
 
 ## AppendStream
 
-`GuzzleHttp\Psr7\AppendStream`
+`DigiwalletGuzzleHttp\Psr7\AppendStream`
 
 Reads from multiple streams, one after the other.
 
 ```php
-use GuzzleHttp\Psr7;
+use DigiwalletGuzzleHttp\Psr7;
 
 $a = Psr7\stream_for('abc, ');
 $b = Psr7\stream_for('123.');
@@ -35,7 +35,7 @@ echo $composed; // abc, 123. Above all listen to me.
 
 ## BufferStream
 
-`GuzzleHttp\Psr7\BufferStream`
+`DigiwalletGuzzleHttp\Psr7\BufferStream`
 
 Provides a buffer stream that can be written to fill a buffer, and read
 from to remove bytes from the buffer.
@@ -45,7 +45,7 @@ what the configured high water mark of the stream is, or the maximum
 preferred size of the buffer.
 
 ```php
-use GuzzleHttp\Psr7;
+use DigiwalletGuzzleHttp\Psr7;
 
 // When more than 1024 bytes are in the buffer, it will begin returning
 // false to writes. This is an indication that writers should slow down.
@@ -63,7 +63,7 @@ a PHP temp stream so that previously read bytes are cached first in memory,
 then on disk.
 
 ```php
-use GuzzleHttp\Psr7;
+use DigiwalletGuzzleHttp\Psr7;
 
 $original = Psr7\stream_for(fopen('http://www.google.com', 'r'));
 $stream = new Psr7\CachingStream($original);
@@ -80,13 +80,13 @@ echo $stream->tell();
 
 ## DroppingStream
 
-`GuzzleHttp\Psr7\DroppingStream`
+`DigiwalletGuzzleHttp\Psr7\DroppingStream`
 
 Stream decorator that begins dropping data once the size of the underlying
 stream becomes too full.
 
 ```php
-use GuzzleHttp\Psr7;
+use DigiwalletGuzzleHttp\Psr7;
 
 // Create an empty stream
 $stream = Psr7\stream_for();
@@ -101,7 +101,7 @@ echo $stream; // 0123456789
 
 ## FnStream
 
-`GuzzleHttp\Psr7\FnStream`
+`DigiwalletGuzzleHttp\Psr7\FnStream`
 
 Compose stream implementations based on a hash of functions.
 
@@ -110,7 +110,7 @@ to create a concrete class for a simple extension point.
 
 ```php
 
-use GuzzleHttp\Psr7;
+use DigiwalletGuzzleHttp\Psr7;
 
 $stream = Psr7\stream_for('hi');
 $fnStream = Psr7\FnStream::decorate($stream, [
@@ -128,7 +128,7 @@ $fnStream->rewind();
 
 ## InflateStream
 
-`GuzzleHttp\Psr7\InflateStream`
+`DigiwalletGuzzleHttp\Psr7\InflateStream`
 
 Uses PHP's zlib.inflate filter to inflate deflate or gzipped content.
 
@@ -140,13 +140,13 @@ to a Guzzle stream resource to be used as a Guzzle stream.
 
 ## LazyOpenStream
 
-`GuzzleHttp\Psr7\LazyOpenStream`
+`DigiwalletGuzzleHttp\Psr7\LazyOpenStream`
 
 Lazily reads or writes to a file that is opened only after an IO operation
 take place on the stream.
 
 ```php
-use GuzzleHttp\Psr7;
+use DigiwalletGuzzleHttp\Psr7;
 
 $stream = new Psr7\LazyOpenStream('/path/to/file', 'r');
 // The file has not yet been opened...
@@ -158,14 +158,14 @@ echo $stream->read(10);
 
 ## LimitStream
 
-`GuzzleHttp\Psr7\LimitStream`
+`DigiwalletGuzzleHttp\Psr7\LimitStream`
 
 LimitStream can be used to read a subset or slice of an existing stream object.
 This can be useful for breaking a large file into smaller pieces to be sent in
 chunks (e.g. Amazon S3's multipart upload API).
 
 ```php
-use GuzzleHttp\Psr7;
+use DigiwalletGuzzleHttp\Psr7;
 
 $original = Psr7\stream_for(fopen('/tmp/test.txt', 'r+'));
 echo $original->getSize();
@@ -182,7 +182,7 @@ echo $stream->tell();
 
 ## MultipartStream
 
-`GuzzleHttp\Psr7\MultipartStream`
+`DigiwalletGuzzleHttp\Psr7\MultipartStream`
 
 Stream that when read returns bytes for a streaming multipart or
 multipart/form-data stream.
@@ -190,12 +190,12 @@ multipart/form-data stream.
 
 ## NoSeekStream
 
-`GuzzleHttp\Psr7\NoSeekStream`
+`DigiwalletGuzzleHttp\Psr7\NoSeekStream`
 
 NoSeekStream wraps a stream and does not allow seeking.
 
 ```php
-use GuzzleHttp\Psr7;
+use DigiwalletGuzzleHttp\Psr7;
 
 $original = Psr7\stream_for('foo');
 $noSeek = new Psr7\NoSeekStream($original);
@@ -212,7 +212,7 @@ var_export($noSeek->read(3));
 
 ## PumpStream
 
-`GuzzleHttp\Psr7\PumpStream`
+`DigiwalletGuzzleHttp\Psr7\PumpStream`
 
 Provides a read only stream that pumps data from a PHP callable.
 
@@ -227,7 +227,7 @@ false when there is no more data to read.
 ## Implementing stream decorators
 
 Creating a stream decorator is very easy thanks to the
-`GuzzleHttp\Psr7\StreamDecoratorTrait`. This trait provides methods that
+`DigiwalletGuzzleHttp\Psr7\StreamDecoratorTrait`. This trait provides methods that
 implement `Psr\Http\Message\StreamInterface` by proxying to an underlying
 stream. Just `use` the `StreamDecoratorTrait` and implement your custom
 methods.
@@ -238,7 +238,7 @@ byte is read from a stream. This could be implemented by overriding the
 
 ```php
 use Psr\Http\Message\StreamInterface;
-use GuzzleHttp\Psr7\StreamDecoratorTrait;
+use DigiwalletGuzzleHttp\Psr7\StreamDecoratorTrait;
 
 class EofCallbackStream implements StreamInterface
 {
@@ -269,7 +269,7 @@ class EofCallbackStream implements StreamInterface
 This decorator could be added to any existing stream and used like so:
 
 ```php
-use GuzzleHttp\Psr7;
+use DigiwalletGuzzleHttp\Psr7;
 
 $original = Psr7\stream_for('foo');
 
@@ -288,16 +288,16 @@ $eofStream->read(3);
 
 ## PHP StreamWrapper
 
-You can use the `GuzzleHttp\Psr7\StreamWrapper` class if you need to use a
+You can use the `DigiwalletGuzzleHttp\Psr7\StreamWrapper` class if you need to use a
 PSR-7 stream as a PHP stream resource.
 
-Use the `GuzzleHttp\Psr7\StreamWrapper::getResource()` method to create a PHP
+Use the `DigiwalletGuzzleHttp\Psr7\StreamWrapper::getResource()` method to create a PHP
 stream from a PSR-7 stream.
 
 ```php
-use GuzzleHttp\Psr7\StreamWrapper;
+use DigiwalletGuzzleHttp\Psr7\StreamWrapper;
 
-$stream = GuzzleHttp\Psr7\stream_for('hello!');
+$stream = DigiwalletGuzzleHttp\Psr7\stream_for('hello!');
 $resource = StreamWrapper::getResource($stream);
 echo fread($resource, 6); // outputs hello!
 ```
@@ -305,7 +305,7 @@ echo fread($resource, 6); // outputs hello!
 
 # Function API
 
-There are various functions available under the `GuzzleHttp\Psr7` namespace.
+There are various functions available under the `DigiwalletGuzzleHttp\Psr7` namespace.
 
 
 ## `function str`
@@ -315,8 +315,8 @@ There are various functions available under the `GuzzleHttp\Psr7` namespace.
 Returns the string representation of an HTTP message.
 
 ```php
-$request = new GuzzleHttp\Psr7\Request('GET', 'http://example.com');
-echo GuzzleHttp\Psr7\str($request);
+$request = new DigiwalletGuzzleHttp\Psr7\Request('GET', 'http://example.com');
+echo DigiwalletGuzzleHttp\Psr7\str($request);
 ```
 
 
@@ -329,8 +329,8 @@ UriInterface for the given value. If the value is already a `UriInterface`, it
 is returned as-is.
 
 ```php
-$uri = GuzzleHttp\Psr7\uri_for('http://example.com');
-assert($uri === GuzzleHttp\Psr7\uri_for($uri));
+$uri = DigiwalletGuzzleHttp\Psr7\uri_for('http://example.com');
+assert($uri === DigiwalletGuzzleHttp\Psr7\uri_for($uri));
 ```
 
 
@@ -369,8 +369,8 @@ This method accepts the following `$resource` types:
   buffered and used in subsequent reads.
 
 ```php
-$stream = GuzzleHttp\Psr7\stream_for('foo');
-$stream = GuzzleHttp\Psr7\stream_for(fopen('/path/to/file', 'r'));
+$stream = DigiwalletGuzzleHttp\Psr7\stream_for('foo');
+$stream = DigiwalletGuzzleHttp\Psr7\stream_for(fopen('/path/to/file', 'r'));
 
 $generator = function ($bytes) {
     for ($i = 0; $i < $bytes; $i++) {
@@ -378,7 +378,7 @@ $generator = function ($bytes) {
     }
 }
 
-$stream = GuzzleHttp\Psr7\stream_for($generator(100));
+$stream = DigiwalletGuzzleHttp\Psr7\stream_for($generator(100));
 ```
 
 
@@ -521,7 +521,7 @@ Maps a file extensions to a mimetype.
 
 # Additional URI Methods
 
-Aside from the standard `Psr\Http\Message\UriInterface` implementation in form of the `GuzzleHttp\Psr7\Uri` class,
+Aside from the standard `Psr\Http\Message\UriInterface` implementation in form of the `DigiwalletGuzzleHttp\Psr7\Uri` class,
 this library also provides additional functionality when working with URIs as static methods.
 
 ## URI Types
@@ -537,34 +537,34 @@ the base URI. Relative references can be divided into several forms according to
 
 The following methods can be used to identify the type of the URI.
 
-### `GuzzleHttp\Psr7\Uri::isAbsolute`
+### `DigiwalletGuzzleHttp\Psr7\Uri::isAbsolute`
 
 `public static function isAbsolute(UriInterface $uri): bool`
 
 Whether the URI is absolute, i.e. it has a scheme.
 
-### `GuzzleHttp\Psr7\Uri::isNetworkPathReference`
+### `DigiwalletGuzzleHttp\Psr7\Uri::isNetworkPathReference`
 
 `public static function isNetworkPathReference(UriInterface $uri): bool`
 
 Whether the URI is a network-path reference. A relative reference that begins with two slash characters is
 termed an network-path reference.
 
-### `GuzzleHttp\Psr7\Uri::isAbsolutePathReference`
+### `DigiwalletGuzzleHttp\Psr7\Uri::isAbsolutePathReference`
 
 `public static function isAbsolutePathReference(UriInterface $uri): bool`
 
 Whether the URI is a absolute-path reference. A relative reference that begins with a single slash character is
 termed an absolute-path reference.
 
-### `GuzzleHttp\Psr7\Uri::isRelativePathReference`
+### `DigiwalletGuzzleHttp\Psr7\Uri::isRelativePathReference`
 
 `public static function isRelativePathReference(UriInterface $uri): bool`
 
 Whether the URI is a relative-path reference. A relative reference that does not begin with a slash character is
 termed a relative-path reference.
 
-### `GuzzleHttp\Psr7\Uri::isSameDocumentReference`
+### `DigiwalletGuzzleHttp\Psr7\Uri::isSameDocumentReference`
 
 `public static function isSameDocumentReference(UriInterface $uri, UriInterface $base = null): bool`
 
@@ -576,14 +576,14 @@ fragment component, identical to the base URI. When no base URI is given, only a
 
 Additional methods to work with URI components.
 
-### `GuzzleHttp\Psr7\Uri::isDefaultPort`
+### `DigiwalletGuzzleHttp\Psr7\Uri::isDefaultPort`
 
 `public static function isDefaultPort(UriInterface $uri): bool`
 
 Whether the URI has the default port of the current scheme. `Psr\Http\Message\UriInterface::getPort` may return null
 or the standard port. This method can be used independently of the implementation.
 
-### `GuzzleHttp\Psr7\Uri::composeComponents`
+### `DigiwalletGuzzleHttp\Psr7\Uri::composeComponents`
 
 `public static function composeComponents($scheme, $authority, $path, $query, $fragment): string`
 
@@ -591,14 +591,14 @@ Composes a URI reference string from its various components according to
 [RFC 3986 Section 5.3](https://tools.ietf.org/html/rfc3986#section-5.3). Usually this method does not need to be called
 manually but instead is used indirectly via `Psr\Http\Message\UriInterface::__toString`.
 
-### `GuzzleHttp\Psr7\Uri::fromParts`
+### `DigiwalletGuzzleHttp\Psr7\Uri::fromParts`
 
 `public static function fromParts(array $parts): UriInterface`
 
 Creates a URI from a hash of [`parse_url`](http://php.net/manual/en/function.parse-url.php) components.
 
 
-### `GuzzleHttp\Psr7\Uri::withQueryValue`
+### `DigiwalletGuzzleHttp\Psr7\Uri::withQueryValue`
 
 `public static function withQueryValue(UriInterface $uri, $key, $value): UriInterface`
 
@@ -606,14 +606,14 @@ Creates a new URI with a specific query string value. Any existing query string 
 provided key are removed and replaced with the given key value pair. A value of null will set the query string
 key without a value, e.g. "key" instead of "key=value".
 
-### `GuzzleHttp\Psr7\Uri::withQueryValues`
+### `DigiwalletGuzzleHttp\Psr7\Uri::withQueryValues`
 
 `public static function withQueryValues(UriInterface $uri, array $keyValueArray): UriInterface`
 
 Creates a new URI with multiple query string values. It has the same behavior as `withQueryValue()` but for an
 associative array of key => value.
 
-### `GuzzleHttp\Psr7\Uri::withoutQueryValue`
+### `DigiwalletGuzzleHttp\Psr7\Uri::withoutQueryValue`
 
 `public static function withoutQueryValue(UriInterface $uri, $key): UriInterface`
 
@@ -622,24 +622,24 @@ provided key are removed.
 
 ## Reference Resolution
 
-`GuzzleHttp\Psr7\UriResolver` provides methods to resolve a URI reference in the context of a base URI according
+`DigiwalletGuzzleHttp\Psr7\UriResolver` provides methods to resolve a URI reference in the context of a base URI according
 to [RFC 3986 Section 5](https://tools.ietf.org/html/rfc3986#section-5). This is for example also what web browsers
 do when resolving a link in a website based on the current request URI.
 
-### `GuzzleHttp\Psr7\UriResolver::resolve`
+### `DigiwalletGuzzleHttp\Psr7\UriResolver::resolve`
 
 `public static function resolve(UriInterface $base, UriInterface $rel): UriInterface`
 
 Converts the relative URI into a new URI that is resolved against the base URI.
 
-### `GuzzleHttp\Psr7\UriResolver::removeDotSegments`
+### `DigiwalletGuzzleHttp\Psr7\UriResolver::removeDotSegments`
 
 `public static function removeDotSegments(string $path): string`
 
 Removes dot segments from a path and returns the new path according to
 [RFC 3986 Section 5.2.4](https://tools.ietf.org/html/rfc3986#section-5.2.4).
 
-### `GuzzleHttp\Psr7\UriResolver::relativize`
+### `DigiwalletGuzzleHttp\Psr7\UriResolver::relativize`
 
 `public static function relativize(UriInterface $base, UriInterface $target): UriInterface`
 
@@ -662,10 +662,10 @@ echo UriResolver::relativize($base, new Uri('http://example.org/a/b/'));   // pr
 
 ## Normalization and Comparison
 
-`GuzzleHttp\Psr7\UriNormalizer` provides methods to normalize and compare URIs according to
+`DigiwalletGuzzleHttp\Psr7\UriNormalizer` provides methods to normalize and compare URIs according to
 [RFC 3986 Section 6](https://tools.ietf.org/html/rfc3986#section-6).
 
-### `GuzzleHttp\Psr7\UriNormalizer::normalize`
+### `DigiwalletGuzzleHttp\Psr7\UriNormalizer::normalize`
 
 `public static function normalize(UriInterface $uri, $flags = self::PRESERVING_NORMALIZATIONS): UriInterface`
 
@@ -735,7 +735,7 @@ of normalizations to apply. The following normalizations are available:
 
     Example: `?lang=en&article=fred` → `?article=fred&lang=en`
 
-### `GuzzleHttp\Psr7\UriNormalizer::isEquivalent`
+### `DigiwalletGuzzleHttp\Psr7\UriNormalizer::isEquivalent`
 
 `public static function isEquivalent(UriInterface $uri1, UriInterface $uri2, $normalizations = self::PRESERVING_NORMALIZATIONS): bool`
 

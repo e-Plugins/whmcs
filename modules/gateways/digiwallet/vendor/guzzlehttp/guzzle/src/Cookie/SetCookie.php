@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Cookie;
+namespace DigiwalletGuzzleHttp\Cookie;
 
 /**
  * Set-Cookie object

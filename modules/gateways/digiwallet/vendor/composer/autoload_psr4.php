@@ -11,8 +11,8 @@ return array(
     'Symfony\\Polyfill\\Intl\\Normalizer\\' => array($vendorDir . '/symfony/polyfill-intl-normalizer'),
     'Symfony\\Polyfill\\Intl\\Idn\\' => array($vendorDir . '/symfony/polyfill-intl-idn'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
-    'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
-    'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
-    'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
+    'DigiwalletGuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
+    'DigiwalletGuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
+    'DigiwalletGuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'Digiwallet\\Packages\\Transaction\\Client\\' => array($vendorDir . '/digiwallet/transaction-client/src'),
 );

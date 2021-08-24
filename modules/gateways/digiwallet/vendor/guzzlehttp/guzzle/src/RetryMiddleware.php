@@ -1,9 +1,9 @@
 <?php
-namespace GuzzleHttp;
+namespace DigiwalletGuzzleHttp;
 
-use GuzzleHttp\Promise\PromiseInterface;
-use GuzzleHttp\Promise\RejectedPromise;
-use GuzzleHttp\Psr7;
+use DigiwalletGuzzleHttp\Promise\PromiseInterface;
+use DigiwalletGuzzleHttp\Promise\RejectedPromise;
+use DigiwalletGuzzleHttp\Psr7;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -110,7 +110,7 @@ class RetryMiddleware
                 null,
                 $reason
             )) {
-                return \GuzzleHttp\Promise\rejection_for($reason);
+                return \DigiwalletGuzzleHttp\Promise\dw_rejection_for($reason);
             }
             return $this->doRetry($req, $options);
         };

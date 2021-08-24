@@ -3,8 +3,8 @@ namespace Digiwallet\Packages\Transaction\Client;
 
 use Digiwallet\Packages\Transaction\Client\Request\CheckTransactionInterface as CheckTransactionRequest;
 use Digiwallet\Packages\Transaction\Client\Request\CreateTransactionInterface as CreateTransactionRequest;
-use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Exception\GuzzleException;
+use DigiwalletGuzzleHttp\Client as GuzzleClient;
+use DigiwalletGuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface as Response;
 
 /**

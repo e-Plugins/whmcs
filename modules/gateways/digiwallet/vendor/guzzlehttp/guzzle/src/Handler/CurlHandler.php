@@ -1,7 +1,7 @@
 <?php
-namespace GuzzleHttp\Handler;
+namespace DigiwalletGuzzleHttp\Handler;
 
-use GuzzleHttp\Psr7;
+use DigiwalletGuzzleHttp\Psr7;
 use Psr\Http\Message\RequestInterface;
 
 /**

@@ -1,10 +1,10 @@
 <?php
-namespace GuzzleHttp;
+namespace DigiwalletGuzzleHttp;
 
-use GuzzleHttp\Cookie\CookieJar;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Promise;
-use GuzzleHttp\Psr7;
+use DigiwalletGuzzleHttp\Cookie\CookieJar;
+use DigiwalletGuzzleHttp\Exception\GuzzleException;
+use DigiwalletGuzzleHttp\Promise;
+use DigiwalletGuzzleHttp\Psr7;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
@@ -46,7 +46,7 @@ class Client implements ClientInterface
      * - handler: (callable) Function that transfers HTTP requests over the
      *   wire. The function is called with a Psr7\Http\Message\RequestInterface
      *   and array of transfer options, and must return a
-     *   GuzzleHttp\Promise\PromiseInterface that is fulfilled with a
+     *   DigiwalletGuzzleHttp\Promise\PromiseInterface that is fulfilled with a
      *   Psr7\Http\Message\ResponseInterface on success.
      *   If no handler is provided, a default handler will be created
      *   that enables all of the request options below by attaching all of the
@@ -57,7 +57,7 @@ class Client implements ClientInterface
      *
      * @param array $config Client configuration settings.
      *
-     * @see \GuzzleHttp\RequestOptions for a list of available request options.
+     * @see \DigiwalletGuzzleHttp\RequestOptions for a list of available request options.
      */
     public function __construct(array $config = [])
     {
@@ -69,7 +69,7 @@ class Client implements ClientInterface
 
         // Convert the base_uri to a UriInterface
         if (isset($config['base_uri'])) {
-            $config['base_uri'] = Psr7\uri_for($config['base_uri']);
+            $config['base_uri'] = Psr7\dw_uri_for($config['base_uri']);
         }
 
         $this->configureDefaults($config);
@@ -99,7 +99,7 @@ class Client implements ClientInterface
      * Asynchronously send an HTTP request.
      *
      * @param array $options Request options to apply to the given
-     *                       request and to the transfer. See \GuzzleHttp\RequestOptions.
+     *                       request and to the transfer. See \DigiwalletGuzzleHttp\RequestOptions.
      *
      * @return Promise\PromiseInterface
      */
@@ -118,7 +118,7 @@ class Client implements ClientInterface
      * Send an HTTP request.
      *
      * @param array $options Request options to apply to the given
-     *                       request and to the transfer. See \GuzzleHttp\RequestOptions.
+     *                       request and to the transfer. See \DigiwalletGuzzleHttp\RequestOptions.
      *
      * @return ResponseInterface
      * @throws GuzzleException
@@ -139,7 +139,7 @@ class Client implements ClientInterface
      *
      * @param string              $method  HTTP method
      * @param string|UriInterface $uri     URI object or string.
-     * @param array               $options Request options to apply. See \GuzzleHttp\RequestOptions.
+     * @param array               $options Request options to apply. See \DigiwalletGuzzleHttp\RequestOptions.
      *
      * @return Promise\PromiseInterface
      */
@@ -171,7 +171,7 @@ class Client implements ClientInterface
      *
      * @param string              $method  HTTP method.
      * @param string|UriInterface $uri     URI object or string.
-     * @param array               $options Request options to apply. See \GuzzleHttp\RequestOptions.
+     * @param array               $options Request options to apply. See \DigiwalletGuzzleHttp\RequestOptions.
      *
      * @return ResponseInterface
      * @throws GuzzleException
@@ -208,10 +208,10 @@ class Client implements ClientInterface
     private function buildUri($uri, array $config)
     {
         // for BC we accept null which would otherwise fail in uri_for
-        $uri = Psr7\uri_for($uri === null ? '' : $uri);
+        $uri = Psr7\dw_uri_for($uri === null ? '' : $uri);
 
         if (isset($config['base_uri'])) {
-            $uri = Psr7\UriResolver::resolve(Psr7\uri_for($config['base_uri']), $uri);
+            $uri = Psr7\UriResolver::resolve(Psr7\dw_uri_for($config['base_uri']), $uri);
         }
 
         if (isset($config['idn_conversion']) && ($config['idn_conversion'] !== false)) {
@@ -265,7 +265,7 @@ class Client implements ClientInterface
 
         // Add the default user-agent header.
         if (!isset($this->config['headers'])) {
-            $this->config['headers'] = ['User-Agent' => default_user_agent()];
+            $this->config['headers'] = ['User-Agent' => dw_default_user_agent()];
         } else {
             // Add the User-Agent header if one was not already set.
             foreach (array_keys($this->config['headers']) as $name) {
@@ -273,7 +273,7 @@ class Client implements ClientInterface
                     return;
                 }
             }
-            $this->config['headers']['User-Agent'] = default_user_agent();
+            $this->config['headers']['User-Agent'] = dw_default_user_agent();
         }
     }
 
@@ -325,7 +325,7 @@ class Client implements ClientInterface
      * The URI of the request is not modified and the request options are used
      * as-is without merging in default options.
      *
-     * @param array $options See \GuzzleHttp\RequestOptions.
+     * @param array $options See \DigiwalletGuzzleHttp\RequestOptions.
      *
      * @return Promise\PromiseInterface
      */
@@ -348,9 +348,9 @@ class Client implements ClientInterface
         $handler = $options['handler'];
 
         try {
-            return Promise\promise_for($handler($request, $options));
+            return Promise\dw_promise_for($handler($request, $options));
         } catch (\Exception $e) {
-            return Promise\rejection_for($e);
+            return Promise\dw_rejection_for($e);
         }
     }
 
@@ -384,7 +384,7 @@ class Client implements ClientInterface
             $options['body'] = http_build_query($options['form_params'], '', '&');
             unset($options['form_params']);
             // Ensure that we don't have the header in different case and set the new value.
-            $options['_conditional'] = Psr7\_caseless_remove(['Content-Type'], $options['_conditional']);
+            $options['_conditional'] = Psr7\dw_caseless_remove(['Content-Type'], $options['_conditional']);
             $options['_conditional']['Content-Type'] = 'application/x-www-form-urlencoded';
         }
 
@@ -394,10 +394,10 @@ class Client implements ClientInterface
         }
 
         if (isset($options['json'])) {
-            $options['body'] = \GuzzleHttp\json_encode($options['json']);
+            $options['body'] = \DigiwalletGuzzleHttp\dw_json_encode($options['json']);
             unset($options['json']);
             // Ensure that we don't have the header in different case and set the new value.
-            $options['_conditional'] = Psr7\_caseless_remove(['Content-Type'], $options['_conditional']);
+            $options['_conditional'] = Psr7\dw_caseless_remove(['Content-Type'], $options['_conditional']);
             $options['_conditional']['Content-Type'] = 'application/json';
         }
 
@@ -405,7 +405,7 @@ class Client implements ClientInterface
             && $options['decode_content'] !== true
         ) {
             // Ensure that we don't have the header in different case and set the new value.
-            $options['_conditional'] = Psr7\_caseless_remove(['Accept-Encoding'], $options['_conditional']);
+            $options['_conditional'] = Psr7\dw_caseless_remove(['Accept-Encoding'], $options['_conditional']);
             $modify['set_headers']['Accept-Encoding'] = $options['decode_content'];
         }
 
@@ -413,7 +413,7 @@ class Client implements ClientInterface
             if (is_array($options['body'])) {
                 $this->invalidBody();
             }
-            $modify['body'] = Psr7\stream_for($options['body']);
+            $modify['body'] = Psr7\dw_stream_for($options['body']);
             unset($options['body']);
         }
 
@@ -423,7 +423,7 @@ class Client implements ClientInterface
             switch ($type) {
                 case 'basic':
                     // Ensure that we don't have the header in different case and set the new value.
-                    $modify['set_headers'] = Psr7\_caseless_remove(['Authorization'], $modify['set_headers']);
+                    $modify['set_headers'] = Psr7\dw_caseless_remove(['Authorization'], $modify['set_headers']);
                     $modify['set_headers']['Authorization'] = 'Basic '
                         . base64_encode("$value[0]:$value[1]");
                     break;
@@ -459,11 +459,11 @@ class Client implements ClientInterface
             }
         }
 
-        $request = Psr7\modify_request($request, $modify);
+        $request = Psr7\dw_modify_request($request, $modify);
         if ($request->getBody() instanceof Psr7\MultipartStream) {
             // Use a multipart/form-data POST if a Content-Type is not set.
             // Ensure that we don't have the header in different case and set the new value.
-            $options['_conditional'] = Psr7\_caseless_remove(['Content-Type'], $options['_conditional']);
+            $options['_conditional'] = Psr7\dw_caseless_remove(['Content-Type'], $options['_conditional']);
             $options['_conditional']['Content-Type'] = 'multipart/form-data; boundary='
                 . $request->getBody()->getBoundary();
         }
@@ -477,7 +477,7 @@ class Client implements ClientInterface
                     $modify['set_headers'][$k] = $v;
                 }
             }
-            $request = Psr7\modify_request($request, $modify);
+            $request = Psr7\dw_modify_request($request, $modify);
             // Don't pass this internal value along to middleware/handlers.
             unset($options['_conditional']);
         }

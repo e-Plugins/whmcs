@@ -36,7 +36,8 @@ $invoice = Capsule::table('tblinvoices')->where([
     ['paymentmethod', $gatewayModuleName],
 ])->first();
 if (empty($invoice)) {
-    die($dwLang['digiwallet']['bad_request']);
+    header("Location: {$returnUrl}");
+    exit();
 }
 if ($invoice->status == 'paid') {
     header("Location: {$returnUrl}");
@@ -74,5 +75,5 @@ if ($result['result']) {
     exit();
 }
 logActivity($result['message']);
-$redirect = $returnUrl . '&error=' . $result['message'];
+$redirect = $returnUrl . '&paymentfailed=true';
 header("Location: {$redirect}");exit();

@@ -1,0 +1,35 @@
+{
+    "schema": "1.0",
+    "type": "whmcs-gateways",
+    "name": "digiwallet_creditcard",
+    "license": "proprietary",
+    "category": "payments",
+    "description": {
+        "name": "DigiWallet for CreditCard",
+        "tagline": "Wereldwijd de meest gebruikte betaalmethode",
+        "long": "Wereldwijde dekking",
+        "features": [
+            "Aankoopbescherming voor uw klant",
+            "Geschikt voor grotere transacties en/of transacties waarbij de klant extra zekerheid wil",
+            "Alle betaalmethodes in een transactieoverzicht",
+            "Technische ondersteuning"
+            
+        ]
+    },
+    "logo": {
+        "filename": "CC.png"
+    },
+    "support": {
+        "homepage": "https://www.digiwallet.nl", 
+        "learn_more": "https://www.digiwallet.nl", 
+        "email": "techsupport@targetmedia.nl", 
+        "support_url": "https://www.digiwallet.nl/faq",
+        "docs_url": "https://www.digiwallet.nl/documentation/paymethods/creditcard"
+    },
+    "authors": [
+        {
+            "name": "DigiWallet.nl",
+            "homepage": "https://www.digiwallet.nl"
+        }
+    ]
+}

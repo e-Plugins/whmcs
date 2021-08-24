@@ -1,0 +1,36 @@
+{
+    "schema": "1.0",
+    "type": "whmcs-gateways",
+    "name": "digiwallet_afterpay",
+    "license": "proprietary",
+    "category": "payments",
+    "description": {
+        "name": "DigiWallet for Afterpay",
+        "tagline": "Achteraf betalen met AfterPay",
+        "long": "Veilig en zorgeloos online winkelen",
+        "features": [
+            "Bekend en vertrouwd",
+            "Hogere conversie",
+            "Neemt voor u het volledige betaalrisico uit handen",
+            "Alle betaalmethodes in een transactieoverzicht",
+            "Technische ondersteuning"
+            
+        ]
+    },
+    "logo": {
+        "filename": "AFP.png"
+    },
+    "support": {
+        "homepage": "https://www.digiwallet.nl", 
+        "learn_more": "https://www.digiwallet.nl", 
+        "email": "techsupport@targetmedia.nl", 
+        "support_url": "https://www.digiwallet.nl/faq",
+        "docs_url": "https://www.digiwallet.nl/documentation/paymethods/afterpay"
+    },
+    "authors": [
+        {
+            "name": "DigiWallet.nl",
+            "homepage": "https://www.digiwallet.nl"
+        }
+    ]
+}

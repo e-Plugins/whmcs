@@ -1,0 +1,35 @@
+{
+    "schema": "1.0",
+    "type": "whmcs-gateways",
+    "name": "digiwallet_sofort",
+    "license": "proprietary",
+    "category": "payments",
+    "description": {
+        "name": "DigiWallet for Sofort",
+        "tagline": "Betalen via internetbankieren in 8 Europese landen",
+        "long": "Een zeer populaire betaalmethode in Duitsland, Oostenrijk, Zwitserland, Belgie en Italie",
+        "features": [
+            "Snel geld ontvangen binnen de Europese grens",
+            "Eenvoudig, veilig en snel",
+            "Alle betaalmethodes in een transactieoverzicht",
+            "Technische ondersteuning"
+           
+        ]
+    },
+    "logo": {
+        "filename": "DEB.png"
+    },
+    "support": {
+        "homepage": "https://www.digiwallet.nl", 
+        "learn_more": "https://www.digiwallet.nl", 
+        "email": "techsupport@targetmedia.nl", 
+        "support_url": "https://www.digiwallet.nl/faq",
+        "docs_url": "https://www.digiwallet.nl/documentation/paymethods/sofort"
+    },
+    "authors": [
+        {
+            "name": "DigiWallet.nl",
+            "homepage": "https://www.digiwallet.nl"
+        }
+    ]
+}

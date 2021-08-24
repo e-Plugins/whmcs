@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Psr7;
+namespace DigiwalletGuzzleHttp\Psr7;
 
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
@@ -15,7 +15,7 @@ use Psr\Http\Message\UriInterface;
  *
  * @return string
  */
-function str(MessageInterface $message)
+function dw_str(MessageInterface $message)
 {
     if ($message instanceof RequestInterface) {
         $msg = trim($message->getMethod() . ' '
@@ -51,7 +51,7 @@ function str(MessageInterface $message)
  * @return UriInterface
  * @throws \InvalidArgumentException
  */
-function uri_for($uri)
+function dw_uri_for($uri)
 {
     if ($uri instanceof UriInterface) {
         return $uri;
@@ -75,7 +75,7 @@ function uri_for($uri)
  * @return StreamInterface
  * @throws \InvalidArgumentException if the $resource arg is not valid.
  */
-function stream_for($resource = '', array $options = [])
+function dw_stream_for($resource = '', array $options = [])
 {
     if (is_scalar($resource)) {
         $stream = fopen('php://temp', 'r+');
@@ -102,7 +102,7 @@ function stream_for($resource = '', array $options = [])
                     return $result;
                 }, $options);
             } elseif (method_exists($resource, '__toString')) {
-                return stream_for((string) $resource, $options);
+                return dw_stream_for((string) $resource, $options);
             }
             break;
         case 'NULL':
@@ -126,12 +126,12 @@ function stream_for($resource = '', array $options = [])
  *
  * @return array Returns the parsed header values.
  */
-function parse_header($header)
+function dw_parse_header($header)
 {
     static $trimmed = "\"'  \n\t\r";
     $params = $matches = [];
 
-    foreach (normalize_header($header) as $val) {
+    foreach (dw_normalize_header($header) as $val) {
         $part = [];
         foreach (preg_split('/;(?=([^"]*"[^"]*")*[^"]*$)/', $val) as $kvp) {
             if (preg_match_all('/<[^>]+>|[^=]+/', $kvp, $matches)) {
@@ -159,7 +159,7 @@ function parse_header($header)
  *
  * @return array Returns the normalized header field values.
  */
-function normalize_header($header)
+function dw_normalize_header($header)
 {
     if (!is_array($header)) {
         return array_map('trim', explode(',', $header));
@@ -198,7 +198,7 @@ function normalize_header($header)
  *
  * @return RequestInterface
  */
-function modify_request(RequestInterface $request, array $changes)
+function dw_modify_request(RequestInterface $request, array $changes)
 {
     if (!$changes) {
         return $request;
@@ -225,11 +225,11 @@ function modify_request(RequestInterface $request, array $changes)
     }
 
     if (!empty($changes['remove_headers'])) {
-        $headers = _caseless_remove($changes['remove_headers'], $headers);
+        $headers = dw_caseless_remove($changes['remove_headers'], $headers);
     }
 
     if (!empty($changes['set_headers'])) {
-        $headers = _caseless_remove(array_keys($changes['set_headers']), $headers);
+        $headers = dw_caseless_remove(array_keys($changes['set_headers']), $headers);
         $headers = $changes['set_headers'] + $headers;
     }
 
@@ -275,7 +275,7 @@ function modify_request(RequestInterface $request, array $changes)
  *
  * @throws \RuntimeException
  */
-function rewind_body(MessageInterface $message)
+function dw_rewind_body(MessageInterface $message)
 {
     $body = $message->getBody();
 
@@ -296,7 +296,7 @@ function rewind_body(MessageInterface $message)
  * @return resource
  * @throws \RuntimeException if the file cannot be opened
  */
-function try_fopen($filename, $mode)
+function dw_try_fopen($filename, $mode)
 {
     $ex = null;
     set_error_handler(function () use ($filename, $mode, &$ex) {
@@ -329,7 +329,7 @@ function try_fopen($filename, $mode)
  * @return string
  * @throws \RuntimeException on error.
  */
-function copy_to_string(StreamInterface $stream, $maxLen = -1)
+function dw_copy_to_string(StreamInterface $stream, $maxLen = -1)
 {
     $buffer = '';
 
@@ -370,7 +370,7 @@ function copy_to_string(StreamInterface $stream, $maxLen = -1)
  *
  * @throws \RuntimeException on error.
  */
-function copy_to_stream(
+function dw_copy_to_stream(
     StreamInterface $source,
     StreamInterface $dest,
     $maxLen = -1
@@ -407,7 +407,7 @@ function copy_to_stream(
  * @return string Returns the hash of the stream
  * @throws \RuntimeException on error.
  */
-function hash(
+function dw_hash(
     StreamInterface $stream,
     $algo,
     $rawOutput = false
@@ -437,7 +437,7 @@ function hash(
  *
  * @return string
  */
-function readline(StreamInterface $stream, $maxLength = null)
+function dw_readline(StreamInterface $stream, $maxLength = null)
 {
     $buffer = '';
     $size = 0;
@@ -464,9 +464,9 @@ function readline(StreamInterface $stream, $maxLength = null)
  *
  * @return Request
  */
-function parse_request($message)
+function dw_parse_request($message)
 {
-    $data = _parse_message($message);
+    $data = dw_parse_message($message);
     $matches = [];
     if (!preg_match('/^[\S]+\s+([a-zA-Z]+:\/\/|\/).*/', $data['start-line'], $matches)) {
         throw new \InvalidArgumentException('Invalid request string');
@@ -476,7 +476,7 @@ function parse_request($message)
 
     $request = new Request(
         $parts[0],
-        $matches[1] === '/' ? _parse_request_uri($parts[1], $data['headers']) : $parts[1],
+        $matches[1] === '/' ? dw_parse_request_uri($parts[1], $data['headers']) : $parts[1],
         $data['headers'],
         $data['body'],
         $version
@@ -492,9 +492,9 @@ function parse_request($message)
  *
  * @return Response
  */
-function parse_response($message)
+function dw_parse_response($message)
 {
-    $data = _parse_message($message);
+    $data = dw_parse_message($message);
     // According to https://tools.ietf.org/html/rfc7230#section-3.1.2 the space
     // between status-code and reason-phrase is required. But browsers accept
     // responses without space and reason as well.
@@ -525,7 +525,7 @@ function parse_response($message)
  *
  * @return array
  */
-function parse_query($str, $urlEncoding = true)
+function dw_parse_query($str, $urlEncoding = true)
 {
     $result = [];
 
@@ -575,7 +575,7 @@ function parse_query($str, $urlEncoding = true)
  *                            to encode using RFC1738.
  * @return string
  */
-function build_query(array $params, $encoding = PHP_QUERY_RFC3986)
+function dw_build_query(array $params, $encoding = PHP_QUERY_RFC3986)
 {
     if (!$params) {
         return '';
@@ -621,9 +621,9 @@ function build_query(array $params, $encoding = PHP_QUERY_RFC3986)
  *
  * @return null|string
  */
-function mimetype_from_filename($filename)
+function dw_mimetype_from_filename($filename)
 {
-    return mimetype_from_extension(pathinfo($filename, PATHINFO_EXTENSION));
+    return dw_mimetype_from_extension(pathinfo($filename, PATHINFO_EXTENSION));
 }
 
 /**
@@ -634,7 +634,7 @@ function mimetype_from_filename($filename)
  * @return string|null
  * @link http://svn.apache.org/repos/asf/httpd/httpd/branches/1.3.x/conf/mime.types
  */
-function mimetype_from_extension($extension)
+function dw_mimetype_from_extension($extension)
 {
     static $mimetypes = [
         '3gp' => 'video/3gpp',
@@ -759,7 +759,7 @@ function mimetype_from_extension($extension)
  * @return array
  * @internal
  */
-function _parse_message($message)
+function dw_parse_message($message)
 {
     if (!$message) {
         throw new \InvalidArgumentException('Invalid message');
@@ -823,7 +823,7 @@ function _parse_message($message)
  * @return string
  * @internal
  */
-function _parse_request_uri($path, array $headers)
+function dw_parse_request_uri($path, array $headers)
 {
     $hostKey = array_filter(array_keys($headers), function ($k) {
         return strtolower($k) === 'host';
@@ -850,7 +850,7 @@ function _parse_request_uri($path, array $headers)
  *
  * @return null|string
  */
-function get_message_body_summary(MessageInterface $message, $truncateAt = 120)
+function dw_get_message_body_summary(MessageInterface $message, $truncateAt = 120)
 {
     $body = $message->getBody();
 
@@ -881,7 +881,7 @@ function get_message_body_summary(MessageInterface $message, $truncateAt = 120)
 }
 
 /** @internal */
-function _caseless_remove($keys, array $data)
+function dw_caseless_remove($keys, array $data)
 {
     $result = [];
 

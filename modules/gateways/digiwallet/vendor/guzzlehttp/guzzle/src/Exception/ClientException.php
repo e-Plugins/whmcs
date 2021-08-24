@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Exception;
+namespace DigiwalletGuzzleHttp\Exception;
 
 /**
  * Exception when a client error is encountered (4xx codes)

@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Promise;
+namespace DigiwalletGuzzleHttp\Promise;
 
 /**
  * A promise that has been rejected.
@@ -30,7 +30,7 @@ class RejectedPromise implements PromiseInterface
             return $this;
         }
 
-        $queue = queue();
+        $queue = dw_queue();
         $reason = $this->reason;
         $p = new Promise([$queue, 'run']);
         $queue->add(static function () use ($p, $reason, $onRejected) {
@@ -59,7 +59,7 @@ class RejectedPromise implements PromiseInterface
     public function wait($unwrap = true, $defaultDelivery = null)
     {
         if ($unwrap) {
-            throw exception_for($this->reason);
+            throw dw_exception_for($this->reason);
         }
     }
 

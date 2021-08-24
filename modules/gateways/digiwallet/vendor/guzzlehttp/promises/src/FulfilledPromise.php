@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Promise;
+namespace DigiwalletGuzzleHttp\Promise;
 
 /**
  * A promise that has been fulfilled.
@@ -30,7 +30,7 @@ class FulfilledPromise implements PromiseInterface
             return $this;
         }
 
-        $queue = queue();
+        $queue = dw_queue();
         $p = new Promise([$queue, 'run']);
         $value = $this->value;
         $queue->add(static function () use ($p, $value, $onFulfilled) {

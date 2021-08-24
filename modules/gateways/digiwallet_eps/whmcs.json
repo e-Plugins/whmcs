@@ -1,0 +1,36 @@
+{
+    "schema": "1.0",
+    "type": "whmcs-gateways",
+    "name": "digiwallet_eps",
+    "license": "proprietary",
+    "category": "payments",
+    "description": {
+        "name": "DigiWallet for EPS",
+        "tagline": "De Oostenrijkse betaalmethode",
+        "long": "Alle Oostenrijkse banken zijn aangesloten bij EPS",
+        "features": [
+            "Meest gebruikte betaalmethode in Oostenrijk",
+            "Alle betalingen zijn gegarandeerd en kunnen niet geannuleerd worden",
+            "EPS straalt vertrouwen en veiligheid uit",
+            "Geen aansluit- of maandkosten",
+            "Alleen transactiekosten voor geslaagde transacties"
+            
+        ]
+    },
+    "logo": {
+        "filename": "EPS.png"
+    },
+    "support": {
+        "homepage": "https://www.digiwallet.nl", 
+        "learn_more": "https://www.digiwallet.nl", 
+        "email": "techsupport@targetmedia.nl", 
+        "support_url": "https://www.digiwallet.nl/faq",
+        "docs_url": "https://www.digiwallet.nl/documentation/paymethods/eps"
+    },
+    "authors": [
+        {
+            "name": "DigiWallet.nl",
+            "homepage": "https://www.digiwallet.nl"
+        }
+    ]
+}

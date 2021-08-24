@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Promise;
+namespace DigiwalletGuzzleHttp\Promise;
 
 /**
  * Get the global task queue used for promise resolution.
@@ -10,7 +10,7 @@ namespace GuzzleHttp\Promise;
  *
  * <code>
  * while ($eventLoop->isRunning()) {
- *     GuzzleHttp\Promise\queue()->run();
+ *     DigiwalletGuzzleHttp\Promise\queue()->run();
  * }
  * </code>
  *
@@ -18,7 +18,7 @@ namespace GuzzleHttp\Promise;
  *
  * @return TaskQueueInterface
  */
-function queue(TaskQueueInterface $assign = null)
+function dw_queue(TaskQueueInterface $assign = null)
 {
     static $queue;
 
@@ -39,9 +39,9 @@ function queue(TaskQueueInterface $assign = null)
  *
  * @return PromiseInterface
  */
-function task(callable $task)
+function dw_task(callable $task)
 {
-    $queue = queue();
+    $queue = dw_queue();
     $promise = new Promise([$queue, 'run']);
     $queue->add(function () use ($task, $promise) {
         try {
@@ -63,7 +63,7 @@ function task(callable $task)
  *
  * @return PromiseInterface
  */
-function promise_for($value)
+function dw_promise_for($value)
 {
     if ($value instanceof PromiseInterface) {
         return $value;
@@ -89,7 +89,7 @@ function promise_for($value)
  *
  * @return PromiseInterface
  */
-function rejection_for($reason)
+function dw_rejection_for($reason)
 {
     if ($reason instanceof PromiseInterface) {
         return $reason;
@@ -105,7 +105,7 @@ function rejection_for($reason)
  *
  * @return \Exception|\Throwable
  */
-function exception_for($reason)
+function dw_exception_for($reason)
 {
     return $reason instanceof \Exception || $reason instanceof \Throwable
         ? $reason
@@ -119,7 +119,7 @@ function exception_for($reason)
  *
  * @return \Iterator
  */
-function iter_for($value)
+function dw_iter_for($value)
 {
     if ($value instanceof \Iterator) {
         return $value;
@@ -144,7 +144,7 @@ function iter_for($value)
  *
  * @return array
  */
-function inspect(PromiseInterface $promise)
+function dw_inspect(PromiseInterface $promise)
 {
     try {
         return [
@@ -169,13 +169,13 @@ function inspect(PromiseInterface $promise)
  * @param PromiseInterface[] $promises Traversable of promises to wait upon.
  *
  * @return array
- * @see GuzzleHttp\Promise\inspect for the inspection state array format.
+ * @see DigiwalletGuzzleHttp\Promise\dw_inspect for the inspection state array format.
  */
-function inspect_all($promises)
+function dw_inspect_all($promises)
 {
     $results = [];
     foreach ($promises as $key => $promise) {
-        $results[$key] = inspect($promise);
+        $results[$key] = dw_inspect($promise);
     }
 
     return $results;
@@ -194,7 +194,7 @@ function inspect_all($promises)
  * @throws \Exception on error
  * @throws \Throwable on error in PHP >=7
  */
-function unwrap($promises)
+function dw_unwrap($promises)
 {
     $results = [];
     foreach ($promises as $key => $promise) {
@@ -216,10 +216,10 @@ function unwrap($promises)
  *
  * @return PromiseInterface
  */
-function all($promises)
+function dw_all($promises)
 {
     $results = [];
-    return each(
+    return dw_each(
         $promises,
         function ($value, $idx) use (&$results) {
             $results[$idx] = $value;
@@ -241,7 +241,7 @@ function all($promises)
  * fulfilled with an array that contains the fulfillment values of the winners
  * in order of resolution.
  *
- * This prommise is rejected with a {@see GuzzleHttp\Promise\AggregateException}
+ * This prommise is rejected with a {@see DigiwalletGuzzleHttp\Promise\AggregateException}
  * if the number of fulfilled promises is less than the desired $count.
  *
  * @param int   $count    Total number of promises.
@@ -249,12 +249,12 @@ function all($promises)
  *
  * @return PromiseInterface
  */
-function some($count, $promises)
+function dw_some($count, $promises)
 {
     $results = [];
     $rejections = [];
 
-    return each(
+    return dw_each(
         $promises,
         function ($value, $idx, PromiseInterface $p) use (&$results, $count) {
             if ($p->getState() !== PromiseInterface::PENDING) {
@@ -290,9 +290,9 @@ function some($count, $promises)
  *
  * @return PromiseInterface
  */
-function any($promises)
+function dw_any($promises)
 {
-    return some(1, $promises)->then(function ($values) { return $values[0]; });
+    return dw_some(1, $promises)->then(function ($values) { return $values[0]; });
 }
 
 /**
@@ -304,13 +304,13 @@ function any($promises)
  * @param mixed $promises Promises or values.
  *
  * @return PromiseInterface
- * @see GuzzleHttp\Promise\inspect for the inspection state array format.
+ * @see DigiwalletGuzzleHttp\Promise\dw_inspect for the inspection state array format.
  */
-function settle($promises)
+function dw_settle($promises)
 {
     $results = [];
 
-    return each(
+    return dw_each(
         $promises,
         function ($value, $idx) use (&$results) {
             $results[$idx] = ['state' => PromiseInterface::FULFILLED, 'value' => $value];
@@ -343,7 +343,7 @@ function settle($promises)
  *
  * @return PromiseInterface
  */
-function each(
+function dw_each(
     $iterable,
     callable $onFulfilled = null,
     callable $onRejected = null
@@ -369,7 +369,7 @@ function each(
  *
  * @return PromiseInterface
  */
-function each_limit(
+function dw_each_limit(
     $iterable,
     $concurrency,
     callable $onFulfilled = null,
@@ -393,12 +393,12 @@ function each_limit(
  *
  * @return PromiseInterface
  */
-function each_limit_all(
+function dw_each_limit_all(
     $iterable,
     $concurrency,
     callable $onFulfilled = null
 ) {
-    return each_limit(
+    return dw_each_limit(
         $iterable,
         $concurrency,
         $onFulfilled,
@@ -415,7 +415,7 @@ function each_limit_all(
  *
  * @return bool
  */
-function is_fulfilled(PromiseInterface $promise)
+function dw_is_fulfilled(PromiseInterface $promise)
 {
     return $promise->getState() === PromiseInterface::FULFILLED;
 }
@@ -427,7 +427,7 @@ function is_fulfilled(PromiseInterface $promise)
  *
  * @return bool
  */
-function is_rejected(PromiseInterface $promise)
+function dw_is_rejected(PromiseInterface $promise)
 {
     return $promise->getState() === PromiseInterface::REJECTED;
 }
@@ -439,7 +439,7 @@ function is_rejected(PromiseInterface $promise)
  *
  * @return bool
  */
-function is_settled(PromiseInterface $promise)
+function dw_is_settled(PromiseInterface $promise)
 {
     return $promise->getState() !== PromiseInterface::PENDING;
 }
@@ -451,7 +451,7 @@ function is_settled(PromiseInterface $promise)
  *
  * @return PromiseInterface
  */
-function coroutine(callable $generatorFn)
+function dw_coroutine(callable $generatorFn)
 {
     return new Coroutine($generatorFn);
 }

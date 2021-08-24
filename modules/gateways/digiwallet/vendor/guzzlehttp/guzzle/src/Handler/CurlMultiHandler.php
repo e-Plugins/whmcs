@@ -1,9 +1,9 @@
 <?php
-namespace GuzzleHttp\Handler;
+namespace DigiwalletGuzzleHttp\Handler;
 
-use GuzzleHttp\Promise as P;
-use GuzzleHttp\Promise\Promise;
-use GuzzleHttp\Utils;
+use DigiwalletGuzzleHttp\Promise as P;
+use DigiwalletGuzzleHttp\Promise\Promise;
+use DigiwalletGuzzleHttp\Utils;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -115,7 +115,7 @@ class CurlMultiHandler
         }
 
         // Step through the task queue which may add additional requests.
-        P\queue()->run();
+        P\dw_queue()->run();
 
         if ($this->active &&
             curl_multi_select($this->_mh, $this->selectTimeout) === -1
@@ -135,7 +135,7 @@ class CurlMultiHandler
      */
     public function execute()
     {
-        $queue = P\queue();
+        $queue = P\dw_queue();
 
         while ($this->handles || !$queue->isEmpty()) {
             // If there are no transfers, then sleep for the next delay

@@ -3,14 +3,14 @@ namespace Digiwallet\Packages\Transaction\Client;
 
 use Digiwallet\Packages\Transaction\Client\Request\CheckTransactionInterface as CheckTransactionRequest;
 use Digiwallet\Packages\Transaction\Client\Request\CreateTransactionInterface as CreateTransactionRequest;
-use GuzzleHttp\Exception\GuzzleException;
+use DigiwalletGuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface as Response;
 
 /**
  * Interface ClientInterface
  * @package Digiwallet\Packages\Transaction\Client
  */
-interface ClientInterface extends \GuzzleHttp\ClientInterface
+interface ClientInterface extends \DigiwalletGuzzleHttp\ClientInterface
 {
     /**
      * @param CreateTransactionRequest $request

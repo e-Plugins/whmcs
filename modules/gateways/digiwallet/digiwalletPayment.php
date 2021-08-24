@@ -8,6 +8,9 @@ require_once __DIR__ . '/../../../init.php';
 require_once __DIR__ . '/../../../includes/gatewayfunctions.php';
 require_once __DIR__ . '/../../../includes/invoicefunctions.php';
 require_once __DIR__ . '/../digiwallet/digiwallet.class.php';
+require_once 'vendor/guzzlehttp/guzzle/src/functions.php';
+require_once 'vendor/guzzlehttp/promises/src/functions.php';
+require_once 'vendor/guzzlehttp/psr7/src/functions.php';
 require_once 'vendor/autoload.php';
 
 class digiwalletPayment
@@ -81,6 +84,7 @@ class digiwalletPayment
         $returnUrl = $this->params['returnurl'];
         $langPayNow = $this->params['langpaynow'];
         $moduleName = $this->params['paymentmethod'];
+        $this->updateOrder($invoiceId, $moduleName);
         $htmlOutput = '';
         if ($this->paymentMethod == 'BW') {
             $digiwalletData = Capsule::table('mod_digiwallet')->where([
@@ -133,29 +137,32 @@ class digiwalletPayment
     {
         $response = array();
         $parametersReport = array();
-        
-        if (in_array($this->paymentMethod, ['EPS', 'GIP'])) {
-            $digiwalletApi = new Client(self::DIGIWALLET_API);
-            $request = new CheckTransaction($digiwalletApi);
-            $request->withBearer($this->params['token']);
-            $request->withOutlet($this->params['rtlo']);
-            $request->withTransactionId($trxid);
-            /** @var \Digiwallet\Packages\Transaction\Client\Response\CheckTransaction $apiResult */
-            $apiResult = $request->send();
-            $apiStatus = $apiResult->getStatus();
-            $isSuccess = (0 == $apiStatus && 'Completed' == $apiResult->getTransactionStatus()) ? true : false;
-            $errorMessage = $apiResult->getMessage();
-        } else {
-            $digiwallet = new DigiwalletCore($this->paymentMethod, $this->params['rtlo']);
-            if ($this->paymentMethod == 'BW') {
-                $checksum = md5($trxid . $this->params['rtlo'] . $this->salt);
-                $parametersReport['checksum'] = $checksum;
+        $isSuccess = false;
+        try {
+            if (in_array($this->paymentMethod, ['EPS', 'GIP'])) {
+                $digiwalletApi = new Client(self::DIGIWALLET_API);
+                $request = new CheckTransaction($digiwalletApi);
+                $request->withBearer($this->params['token']);
+                $request->withOutlet($this->params['rtlo']);
+                $request->withTransactionId($trxid);
+                /** @var \Digiwallet\Packages\Transaction\Client\Response\CheckTransaction $apiResult */
+                $apiResult = $request->send();
+                $apiStatus = $apiResult->getStatus();
+                $isSuccess = (0 == $apiStatus && 'Completed' == $apiResult->getTransactionStatus()) ? true : false;
+                $errorMessage = $apiResult->getMessage();
+            } else {
+                $digiwallet = new DigiwalletCore($this->paymentMethod, $this->params['rtlo']);
+                if ($this->paymentMethod == 'BW') {
+                    $checksum = md5($trxid . $this->params['rtlo'] . $this->salt);
+                    $parametersReport['checksum'] = $checksum;
+                }
+                $digiwallet->checkPayment($trxid, $parametersReport);
+                $isSuccess = $digiwallet->getPaidStatus();
+                $errorMessage = $digiwallet->getErrorMessage();
             }
-            $digiwallet->checkPayment($trxid, $parametersReport);
-            $isSuccess = $digiwallet->getPaidStatus();
-            $errorMessage = $digiwallet->getErrorMessage();
+        } catch(Exception $e) {
+            $response['message'] = $e->getMessage();
         }
-        
         $amountPaid = null;
         if ($isSuccess) {
             if ($this->paymentMethod == 'BW') {
@@ -229,11 +236,17 @@ class digiwalletPayment
             $request = new CreateTransaction($digiwalletApi, $formParams);
             $request->withBearer($token);
             /** @var \Digiwallet\Packages\Transaction\Client\Response\CreateTransaction $apiResult */
-            $apiResult = $request->send();
-            $result = 0 == $apiResult->status() ? true : false;
-            $message = $apiResult->message();
-            $transactionId = $apiResult->transactionId();
-            $bankUrl = $apiResult->launchUrl();
+            try {
+                $apiResult = $request->send();
+                $result = 0 == $apiResult->status() ? true : false;
+                $message = $apiResult->message();
+                $transactionId = $apiResult->transactionId();
+                $bankUrl = $apiResult->launchUrl();
+            } catch(Exception $e) {
+                $result = false;
+                $message = $e->getMessage();
+            }
+            
         } else {
             $digiWallet = new DigiWalletCore($this->paymentMethod, $rtlo);
             $digiWallet->setAmount(round($amount * 100));
@@ -487,5 +500,12 @@ class digiwalletPayment
     public function getCurrency()
     {
         return self::DIGIWALLET_CURRENCY;
+    }
+    
+    public function updateOrder($invoiceId, $payment)
+    {
+        return Capsule::table('tblorders')
+        ->where('invoiceid', $invoiceId)
+        ->update(['paymentmethod' => $payment]);
     }
 }
