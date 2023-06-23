@@ -4,7 +4,7 @@
  * @file     Provides support for DigiWallet iDEAL, Bancontact and Sofort Banking
  * @author   digiwallet.nl
  * @url      https://www.digiwallet.nl
- * @release  11-10-2020
+ * @release  23-06-2023
  * @ver      1.1
  */
 
@@ -16,7 +16,7 @@ class DigiWalletCore
 {
     // Constants
 
-    const APP_ID = 'dw_whmcs7.9.2_1.2';
+    const APP_ID = 'dw_whmcs8';
 
     const MIN_AMOUNT            = 84;
 
