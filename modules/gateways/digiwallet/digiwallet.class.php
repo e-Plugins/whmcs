@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file     Provides support for DigiWallet iDEAL, Bancontact and Sofort
+ * @file     Provides support for DigiWallet iDEAL, Bancontact and Sofort Banking
  * @author   digiwallet.nl
  * @url      https://www.digiwallet.nl
  * @release  11-10-2020
@@ -22,7 +22,7 @@ class DigiWalletCore
 
     const ERR_NO_AMOUNT         = "Geen bedrag meegegeven | No amount given";
     const ERR_NO_DESCRIPTION    = "Geen omschrijving meegegeven | No description given";
-    const ERR_NO_RTLO           = "Geen rtlo (Outletcode DigiWallet) bekend; controleer de module instellingen | No rtlo (Outletcode DigiWallet) filled in, check the module settings";
+    const ERR_NO_RTLO           = "Geen rtlo (layoutcode DigiWallet) bekend; controleer de module instellingen | No rtlo (layoutcode DigiWallet) filled in, check the module settings";
     const ERR_NO_TXID           = "Er is een onjuist transactie ID opgegeven | An incorrect transaction ID was given";
     const ERR_NO_RETURN_URL     = "Geen of ongeldige return URL | No or invalid return URL";
     const ERR_NO_REPORT_URL     = "Geen of ongeldige report URL | No or invalid report URL";
@@ -58,32 +58,32 @@ class DigiWalletCore
 
     // Variables
 
-    protected $rtlo             = null;
+    protected $rtlo             = '';
 
     protected $language         = "nl";
-    protected $payMethod        = null;
+    protected $payMethod        = '';
 
-    protected $bankId           = null;
-    protected $countryId        = null;
+    protected $bankId           = '';
+    protected $countryId        = '';
     protected $amount           = 0;
-    protected $description      = null;
-    protected $returnUrl        = null; // When using the AUTO-setting; %payMethod% will be replaced by the actual payment method just before starting the payment
-    protected $cancelUrl        = null; // When using the AUTO-setting; %payMethod% will be replaced by the actual payment method just before starting the payment
-    protected $reportUrl        = null; // When using the AUTO-setting; %payMethod% will be replaced by the actual payment method just before starting the payment
+    protected $description      = '';
+    protected $returnUrl        = ''; // When using the AUTO-setting; %payMethod% will be replaced by the actual payment method just before starting the payment
+    protected $cancelUrl        = ''; // When using the AUTO-setting; %payMethod% will be replaced by the actual payment method just before starting the payment
+    protected $reportUrl        = ''; // When using the AUTO-setting; %payMethod% will be replaced by the actual payment method just before starting the payment
 
-    protected $bankUrl          = null;
+    protected $bankUrl          = '';
 
-    protected $transactionId    = null;
+    protected $transactionId    = '';
     protected $paidStatus       = false;
 
-    protected $bankwireAmountDue = null;
-    protected $bankwireAmountPaid = null;
+    protected $bankwireAmountDue = '';
+    protected $bankwireAmountPaid = '';
 
-    protected $errorMessage     = null;
+    protected $errorMessage     = '';
 
     protected $parameters       = array();    // Additional parameters
 
-    protected $moreInformation = null;
+    protected $moreInformation = '';
     
     /**
      *  Constructor
@@ -221,11 +221,11 @@ class DigiWalletCore
             }
         }
         
-        if(WP_DEBUG) {
+       /* if(WP_DEBUG) {
             error_log("\n-------------------------------------------------\n");
             error_log($url);
-        }
-        
+        }*/
+
         $result = $this->httpRequest($url);
         $result_code = substr($result, 0, 6);
         if (($result_code == "000000") || ($result_code == "000001" && $this->payMethod == "CC")) {

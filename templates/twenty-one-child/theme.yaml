@@ -1,0 +1,15 @@
+# WHMCS Twenty-One-Child Theme Configuration File
+
+name: "Twenty One Child"
+description: "The Default Child Theme for WHMCS 2021" 
+author: "Xenomedia internetbureau"
+config:
+    parent: twenty-one
+properties:
+    serverSidePagination: false # Defines client side will handle pagination
+
+provides:
+  bootstrap: 4.5.3
+  jquery: 1.12.4
+  fontawesome: 5.10.1
+
