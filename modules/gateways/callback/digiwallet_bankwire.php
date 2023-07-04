@@ -62,5 +62,6 @@ if (empty($cbTrans)) {
     $invoiceNew = digiwalletPayment::getInvoiceById($invoiceId);
     echo "Old:{$invoice->status}, New:{$invoiceNew->status}";
 } else {
-    echo sprintf($dwLang['digiwallet']['invoice_paid'], $invoiceId);
+    //echo sprintf($dwLang['digiwallet']['invoice_paid'], $invoiceId);
+	// removed before a redirect
 }
