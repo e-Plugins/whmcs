@@ -1,8 +1,8 @@
 # WHMCS Twenty-One-Child Theme Configuration File
 
 name: "Twenty One Child"
-description: "The Default Child Theme for WHMCS 2021" 
-author: "Xenomedia internetbureau"
+description: "The Default Child Theme for WHMCS" 
+author: "Xenomedia internetbureau | www.xenomedia.nl"
 config:
     parent: twenty-one
 properties:

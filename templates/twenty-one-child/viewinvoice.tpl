@@ -27,11 +27,11 @@
                 <div class="col-12 col-sm-6 justify-content-sm-between text-center text-sm-left invoice-col">
 
                     {if $logo}
-                        <p><img src="{$logo}" title="{$companyname}" style="height:125px"/></p>
+                        <p><img src="{$logo}" title="{$companyname}" /></p>
                     {else}
                         <h2>{$companyname}</h2>
                     {/if}
-                    <h3>{$pagetitle}</h3>
+                    <h3></h3>
 
                 </div>
                 <div class="col-12 col-sm-6 invoice-col text-center">
@@ -110,8 +110,7 @@
                         {if $clientsdetails.companyname}{$clientsdetails.companyname}<br />{/if}
                         {$clientsdetails.firstname} {$clientsdetails.lastname}<br />
                         {$clientsdetails.address1}, {$clientsdetails.postcode}<br />
-                        {$clientsdetails.city}, {$clientsdetails.state}<br />
-                        {$clientsdetails.country}
+                        {$clientsdetails.city}<br />
                         {if $clientsdetails.tax_id}
                             <br />{$taxIdLabel}: {$clientsdetails.tax_id}
                         {/if}
@@ -126,21 +125,44 @@
             </div>
 
             <div class="row">
+                
+                
                 {if $status neq "Unpaid" || not $allowchangegateway}
-	            <div class="col-12 col-sm-6 order-sm-last text-sm-right invoice-col right">
+	            <div class="col-12 col-sm-4 invoice-col left">
+                    <strong>{lang key='invoicesdatecreated'}</strong><br>
+                    <span class="small-text">
+                        {$date}<br><br>
+                    </span>
+                </div>
+                <div class="col-12 col-sm-4 text-sm-center invoice-col">
 	                <strong>{$LANG.paymentmethod}</strong><br>
 	                <span class="small-text" data-role="paymethod-info"> 
 	                  {$paymentmethod}{if $paymethoddisplayname} ({$paymethoddisplayname}){/if}
 	                </span>
 	                <br /><br />
 	            </div>
-                {/if}
-                <div class="col-12 col-sm-6 invoice-col">
+                <div class="col-12 col-sm-4 invoice-col text-sm-right">
+                    <strong>{lang key='Factuurnummer'}</strong><br>
+                    <span class="small-text">
+                        {$pagetitle}<br><br>
+                    </span>
+                </div>
+
+                {else}
+                <div class="col-12 col-sm-6 invoice-col left">
                     <strong>{lang key='invoicesdatecreated'}</strong><br>
                     <span class="small-text">
                         {$date}<br><br>
                     </span>
                 </div>
+                <div class="col-12 col-sm-6 invoice-col text-sm-right right">
+                    <strong>{lang key='Factuurnummer'}</strong><br>
+                    <span class="small-text">
+                        {$pagetitle}<br><br>
+                    </span>
+                </div>
+                {/if}
+                
             </div>
 
             <br />
